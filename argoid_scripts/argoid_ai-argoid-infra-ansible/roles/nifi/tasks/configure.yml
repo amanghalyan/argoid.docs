@@ -1,0 +1,29 @@
+---
+
+  - name: Update nifi.properties file 
+    template: 
+      src: templates/nifi.properties
+      dest: /opt/nifi/conf/
+    tags:
+      - setup_nifi
+      - configure_nifi
+      - setup_node
+      - cluster_setup
+
+  - name: Update bootstrap.conf file
+    template:
+      src: templates/bootstrap.conf
+      dest: /opt/nifi/conf/
+    tags:
+      - setup_nifi
+      - configure_nifi
+      - setup_node
+      - cluster_setup
+
+  - name: Changing ownership
+    file: dest=/opt/nifi owner=nifi group=nifi mode=755 recurse=yes
+    tags:
+      - setup_nifi
+      - configure_nifi
+      - setup_node
+      - cluster_setup

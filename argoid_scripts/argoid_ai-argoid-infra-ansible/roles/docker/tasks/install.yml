@@ -1,0 +1,108 @@
+---
+- name: Stat for Docker installation
+  stat:
+    path: /usr/bin/docker 
+  register: docker_installation_status
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+- name: Add Docker GPG key.
+  rpm_key:
+    key: "{{ docker_yum_gpg_key }}"
+    state: present
+  when: docker_installation_status.stat.exists == False
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+
+- name: Add Docker repository.
+  get_url:
+    url: "{{ docker_yum_repo_url }}"
+    dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
+    owner: root
+    group: root
+    mode: 0644
+  when: docker_installation_status.stat.exists == False
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+
+- name: Install Docker
+  yum:
+    name: docker-ce
+    state: latest
+  when: docker_installation_status.stat.exists == False
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+
+- name: Install Python-Development Tools
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - gcc
+    - gcc-c++
+    - python-devel
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup  
+
+
+- name: Stat for Docker-Compose installation
+  stat:
+    path: /usr/local/bin/docker-compose
+  register: docker_compose_installation_status
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+- name: Install Docker Compose (if configured).
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-Linux-x86_64"
+    dest: "{{ docker_compose_path }}"
+    mode: 0755
+  when: docker_compose_installation_status.stat.exists == False
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+- name: Setup virtual env for docker
+  file:
+    name: "{{ docker_venv_path }}"
+    state: directory  
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+- name: Copy Docker requirements.txt file
+  template:
+    dest: "{{ docker_venv_path }}"
+    src: files/requirements.txt
+    mode: 0644
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup  
+
+- name: Initiate Docker Python virtualenv
+  pip:
+    virtualenv: "{{ docker_venv_path }}"
+    virtualenv_python: "{{ docker_installation_python_path }}"
+    requirements: "{{ docker_venv_path }}/requirements.txt"
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup  

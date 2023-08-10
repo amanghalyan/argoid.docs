@@ -1,0 +1,19 @@
+---
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags:
+  - setup_docker
+  - setup_node
+  - cluster_setup
+
+- name: Stop Docker Service
+  service:
+    name: docker
+    state: stopped
+  tags:
+  - stop
+  - stop_docker
+  - never

@@ -1,0 +1,49 @@
+---
+- name: Update hadoop-env.sh file 
+  template: 
+    src: files/hadoop-env.sh
+    dest: /etc/hadoop/conf/hadoop-env.sh
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_hdfs
+  - configure_hdfs
+
+- name: Update core-site.xml file
+  template:
+    src: files/core-site.xml 
+    dest: /etc/hadoop/conf/core-site.xml
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_hdfs
+  - configure_hdfs
+
+- name: Update hdfs-site.xml file
+  template:
+    src: files/hdfs-site.xml 
+    dest: /etc/hadoop/conf/hdfs-site.xml 
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_hdfs
+  - configure_hdfs
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+  - setup_spark_client
+
+
+- name: Configure log4j.properties
+  template: 
+    src: files/log4j.properties
+    dest: /etc/hadoop/conf/log4j.properties 
+    owner: root
+    mode: 0755
+  tags:
+  - setup_hdfs
+  - configure_hdfs

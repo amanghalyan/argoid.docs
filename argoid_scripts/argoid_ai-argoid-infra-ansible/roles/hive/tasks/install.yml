@@ -1,0 +1,61 @@
+---
+  - name: install hive package
+    yum: 
+      name: 
+      - hive-metastore.noarch
+      - hive-server2.noarch
+      - mysql-connector-java
+      - MySQL-python
+      state: present
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+    - setup_node
+    - setup_hive
+
+  - name: Install hive client
+    yum:
+      name:
+      - hive.noarch
+      state: present
+    when: inventory_hostname in  "{{ groups.hive_client }}"
+    tags:
+    - setup_node
+    - setup_hive
+    - setup_client
+    - setup_hive_client
+
+  - name: Download Mysql8 connector
+    get_url:
+      url: "{{mysql_connector_source_url}}"
+      dest: /usr/share/java/
+      mode: 0777
+      force: yes
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+    - setup_node
+    - setup_hive
+
+  - name: create symbolically link for mysql connector
+    file: src=/usr/share/java/mysql-connector-java-8.0.15.jar  dest=/usr/lib/hive/lib/mysql-connector-java-8.0.15.jar  owner=hive group=hive state=link
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+    - setup_node
+    - setup_hive
+  
+  - name: create user 'hive'@'%'
+    command: mysql --user root --password={{ mysql_root_password  }} --host={{ ansible_default_ipv4.address }}  --execute="CREATE DATABASE IF NOT EXISTS {{ hive_mysql_db }} ;CREATE USER IF NOT EXISTS '{{ hive_mysql_user }}'@'%' IDENTIFIED BY '{{hive_mysql_password }}';GRANT ALL PRIVILEGES ON {{ hive_mysql_db }}.*  TO '{{hive_mysql_user}}'@'%';FLUSH PRIVILEGES;"
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+    - setup_node
+    - setup_hive
+
+  - name: create hive schema
+    shell: mysql  -u{{ hive_mysql_user }}  -p{{ hive_mysql_password }} -h {{ ansible_default_ipv4.address }} {{ hive_mysql_db }}  < hive-schema-2.3.0.mysql.sql
+    args:
+      chdir: /usr/lib/hive/scripts/metastore/upgrade/mysql
+    register: hive_schema_status
+    failed_when: "'Duplicate key name' not in hive_schema_status.stderr and hive_schema_status.rc != 0"  
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+    - setup_node
+    - setup_hive

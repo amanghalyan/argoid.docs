@@ -1,0 +1,61 @@
+---
+- name: Find Attached Disks
+  shell: "{{ list_disks_shell_command }}"
+  register: list_disks
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_disk
+
+- set_fact: 
+    attached_disks={{ list_disks.stdout_lines }}
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_disk
+
+- name: Create Data folders
+  file:
+    path: "/data/{{item}}"
+    state: directory
+  ignore_errors: True
+  register: folder_stats
+  with_sequence: start=1 stride=1 end={{attached_disks | length}}
+  when: 
+    - attached_disks|length  > 0
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_disk
+
+
+- name: Create filesystem
+  filesystem: 
+    fstype: ext4
+    dev: "{{item}}"
+    force: no
+  with_items: "{{attached_disks}}"
+  when: attached_disks|length  > 0 
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_disk
+
+- name: Mount Disk 
+  mount:
+    path: /data/{{item.0}}
+    src: "{{item.1}}"
+    fstype: ext4
+    state: mounted
+    opts: defaults,noatime,nofail
+  ignore_errors: True
+  when: attached_disks|length  > 0 
+  with_together:
+    - "{{ lookup('sequence','start=1  end={{attached_disks | length}}' , wantlist=True) }}"
+    - "{{ attached_disks }}"
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_disk
+
+

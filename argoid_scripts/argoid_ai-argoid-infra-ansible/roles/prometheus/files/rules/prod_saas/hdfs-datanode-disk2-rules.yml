@@ -1,0 +1,127 @@
+groups:
+- name: hdfs-disk.rules
+  rules:
+  - alert: SaaS-Prod1(Common) MINOR Disk(/dev/sdc) used to store  FSImage/Edit logs  has crossed  of 85 % of space ,on 10.0.0.5
+    expr:  (node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10005",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} * 100  >= 85
+    for: 10m
+    labels:
+      severity: "Minor"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10005&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert: SaaS-Prod1(Common) MINOR Disk(/dev/sdc) used to store  FSImage/Edit logs  has crossed  of 85 % of space ,on 10.0.0.6
+    expr:  (node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10006",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} * 100  >= 85
+    for: 10m
+    labels:
+      severity: "Minor"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10006&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert: SaaS-Prod1(Common) MINOR Disk(/dev/sdc) used to store  Edit logs  has crossed  of 85 % of space ,on 10.0.0.7
+    expr:  (node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10007",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} * 100  >= 85
+    for: 10m
+    labels:
+      severity: "Minor"
+    annotations:
+      summary: "Grafana URL http://10.0.0.21:3000/d/000000001/system-metrics?orgId=1&from=now-6h&to=now&var-interval=5s&var-host=node_10005&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+#disk utilization more than 90%
+
+  - alert: SaaS-Prod1(Common) WARNING Disk(/dev/sdc) used to store  FSImage/Edit logs  has crossed  of 90 % of space ,on 10.0.0.5
+    expr:  (node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10005",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} * 100  >= 90
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 85 % , 10.0.0.5 ; Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10005&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert:  SaaS-Prod1(Common) WARNING Disk(/dev/sdc) used to store  FSImage/Edit logs  has crossed  of 90 % of space ,on 10.0.0.6
+    expr:  (node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10006",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} * 100  >= 90
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 85 % , 10.0.0.6 ; Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10006&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert:  SaaS-Prod1(Common) WARNING Disk(/dev/sdc) used to store  Edit logs  has crossed  of 90 % of space on 10.0.0.7
+    expr:  (node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10007",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} * 100  >= 90
+    for: 30m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 85 % , 10.0.0.7 ; http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10007&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+
+#disk utilization more than 95%
+
+  - alert: SaaS-Prod1(Common) CRITICAL Disk(/dev/sdc)  to Store FSImage/Edit logs  has crossed Usage of 95 %,on 10.0.0.5
+    expr:  (node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10005",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10005",device="/dev/sdc"} * 100  >= 95
+    for: 3m
+    labels:
+      severity: "CRITICAL"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 95 % , 10.0.0.5 ; Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10005&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert: SaaS-Prod1(Common) CRITICAL Disk(/dev/sdc)  to Store FSImage/Edits log has crossed Usage of 95 %,on 10.0.0.6
+    expr:  (node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10006",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10006",device="/dev/sdc"} * 100  >= 95
+    for: 3m
+    labels:
+      severity: "CRITICAL"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 95 % , 10.0.0.6 ; Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10006&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+  - alert: SaaS-Prod1(Common) CRITICAL Disk(/dev/sdc)  to Store Edits log  has crossed Usage of 95 %,on 10.0.0.7
+    expr:  (node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_10007",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_10007",device="/dev/sdc"} * 100  >= 95
+    for: 3m
+    labels:
+      severity: "CRITICAL"
+    annotations:
+      summary: "Disk /dev/sdc usage has crossed 95 % , 10.0.0.7 ; Grafana URL  http://10.0.0.15:3000/d/000000001/system-metrics?panelId=48&fullscreen&orgId=1&var-interval=5s&var-host=node_10007&var-tag=job"
+      description: "To increase disk size follow this Runbook https://argoid.atlassian.net/wiki/spaces/MIT/pages/1434288224/Alerts+On+Secondary+Disk+Space"
+
+
+  - alert: SaaS-Prod1(Common) MINOR Disk(/dev/sdc) usage crossed 85%,on 10.0.0.57
+    expr:  (node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100057",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} * 100  >= 85
+    for: 3m
+    labels:
+      severity: "MINOR"
+
+  - alert: SaaS-Prod1(Common) WARNING Disk(/dev/sdc) usage crossed 90%,on 10.0.0.57
+    expr:  (node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100057",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} * 100  >= 90
+    for: 3m
+    labels:
+      severity: "WARNING"
+
+  - alert: SaaS-Prod1(Common) CRITICAL Disk(/dev/sdc) usage crossed 95%,on 10.0.0.57
+    expr:  (node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100057",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100057",device="/dev/sdc"} * 100  >= 95
+    for: 3m
+    labels:
+      severity: "CRITICAL"
+    
+
+  - alert: SaaS-Prod1(Common) MINOR Disk(/dev/sdc) usage crossed 85%,on 10.0.0.58
+    expr:  (node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100058",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} * 100  >= 85
+    for: 3m
+    labels:
+      severity: "MINOR"
+
+  - alert: SaaS-Prod1(Common) WARNING Disk(/dev/sdc) usage crossed 90%,on 10.0.0.58
+    expr:  (node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100058",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} * 100  >= 90
+    for: 3m
+    labels:
+      severity: "WARNING"
+
+  - alert: SaaS-Prod1(Common) CRITICAL Disk(/dev/sdc) usage crossed 95%,on 10.0.0.58
+    expr:  (node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} - node_filesystem_free_bytes{job="node_100058",device="/dev/sdc"}) / node_filesystem_size_bytes{job="node_100058",device="/dev/sdc"} * 100  >= 95
+    for: 3m
+    labels:
+      severity: "CRITICAL"
+

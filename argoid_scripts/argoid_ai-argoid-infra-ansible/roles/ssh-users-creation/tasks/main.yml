@@ -1,0 +1,6 @@
+---
+# tasks file for ssh-gateway-users-creation
+- import_tasks: user-account-creation.yml
+- import_tasks: gateway-users-creation.yaml
+- import_tasks: argoid-team-users-creation.yml
+- import_tasks: argoid-team-users-deletion.yml

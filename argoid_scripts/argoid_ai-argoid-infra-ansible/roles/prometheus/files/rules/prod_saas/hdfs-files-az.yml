@@ -1,0 +1,226 @@
+groups:
+- name: azadea.hdfs.files.rules
+  rules:
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following Azadea prod/ingestion/events/cs_events/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/ingestion/events/cs_events/version=2"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following Azadea prod/ingestion/events/cs_events/version=1 Store HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/ingestion/events/cs_events/version=2"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following Azadea prod/ingestion/entities/product/version=1 HDFS  directory from past 6 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/ingestion/entities/product/version=1"}[6h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/ingestion/entities/product/version=1 Store HDFS  directory from past 8 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/ingestion/entities/product/version=1"}[8h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/snapshots/product/version=1/historical HDFS  directory from past 6 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/snapshots/product/version=1/historical"}[6h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/snapshots/product/version=1/historical HDFS  directory from past 8 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/snapshots/product/version=1/historical"}[8h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/features/trending_products_score/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/features/trending_products_score/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/features/trending_products_score/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/features/trending_products_score/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/batch_recommendations/trending_products/version=1 HDFS  directory from past 7 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/trending_products/version=1"}[7h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/batch_recommendations/trending_products/version=1 HDFS  directory from past 8 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/trending_products/version=1"}[8h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/processed/user_order_history/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/processed/user_order_history/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/processed/user_order_history/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/processed/user_order_history/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/snapshots/user/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/snapshots/user/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/snapshots/user/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/snapshots/user/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/journal/events/events_stream/version=2 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/journal/events/events_stream/version=2"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/journal/events/events_stream/version=2 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/journal/events/events_stream/version=2"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/features/user_products_rating/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/features/user_products_rating/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/features/user_products_rating/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/features/user_products_rating/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/models/ymal_lightfm/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/models/ymal_lightfm/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/models/ymal_lightfm/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/models/ymal_lightfm/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/batch_recommendations/ymal/lightfm/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/ymal/lightfm/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/batch_recommendations/ymal/lightfm/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/ymal/lightfm/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(AZ) WARNING No HDFS writes under following azadea prod/batch_recommendations/ymal/lightfm_filtered_by_max_occurance/version=1 HDFS  directory from past 7 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/ymal/lightfm_filtered_by_max_occurance/version=1"}[7h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  No HDFS writes under following azadea prod/batch_recommendations/ymal/lightfm_filtered_by_max_occurance/version=1 HDFS  directory from past 8 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/azadea/prod/batch_recommendations/ymal/lightfm_filtered_by_max_occurance/version=1"}[8h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1"
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+- name: Create Superuser group in HDFS
+  shell: /usr/bin/getent group supergroup || /usr/sbin/groupadd supergroup &&  /usr/sbin/usermod -aG supergroup hdfs
+  when: 
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - setup_hdfs
+
+- name: Add Nifi user in HDFS Supergroup
+  shell: /usr/sbin/useradd nifi || true &&  /usr/sbin/usermod -aG supergroup nifi
+  when: 
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}" 
+  - nifi_superuser_enabled == True
+  tags:
+  - setup_hdfs
+  
+- name: Add Mapred user in HDFS Supergroup
+  shell: /usr/sbin/useradd mapred || true &&  /usr/sbin/usermod -aG supergroup mapred
+  when: 
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - setup_hdfs
+  
+- name: Refresh HDFS User-Group mappings
+  shell: hdfs dfsadmin -refreshUserToGroupsMappings
+  become_user: hdfs
+  when: 
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - setup_hdfs
+  
+

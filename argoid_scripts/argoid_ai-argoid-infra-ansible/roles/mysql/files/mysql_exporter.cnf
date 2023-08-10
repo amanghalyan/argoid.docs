@@ -1,0 +1,4 @@
+[client]
+user=root
+password={{ mysql_root_password }}
+hosts={{ansible_default_ipv4.address}}

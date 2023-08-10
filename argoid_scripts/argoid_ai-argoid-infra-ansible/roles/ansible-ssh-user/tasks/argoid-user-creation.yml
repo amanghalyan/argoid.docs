@@ -1,0 +1,35 @@
+---
+
+- name: Create user {{ argoid_ansible_user }}
+  user:
+    name: "{{ argoid_ansible_user }}"
+    shell: /bin/bash
+  tags:
+  - create_user
+  - cluster_setup
+
+- name: Upload {{ argoid_ansible_user }} user authorized keys
+  authorized_key:
+    user: '{{ argoid_ansible_user }}'
+    key: '{{ item }}'
+    path: '/home/{{ argoid_ansible_user }}/.ssh/authorized_keys'
+    manage_dir: no
+  with_file:
+  - files/id_rsa.pub
+  tags:
+  - create_user
+  - cluster_setup
+
+
+- name: Update /etc/sudoers.d/{{ argoid_ansible_user }} file with sudo privilege
+  lineinfile:
+    path: '/etc/sudoers.d/{{ argoid_ansible_user }}'
+    insertafter: EOF
+    line: '{{ argoid_ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+    state: present
+    create: yes 
+  tags:
+  - create_user
+  - cluster_setup
+

@@ -1,0 +1,34 @@
+---
+  - name: copy the hive configuration file
+    template: src=files/hive-site.xml dest=/etc/hive/conf/hive-site.xml owner=hive group=hive mode=0664
+    tags:
+      - setup_hive
+      - setup_node
+      - configure_hive
+      - setup_client
+      - setup_hive_client 
+
+  - name: copy hive environment file
+    template: src=files/hive-env.sh dest=/etc/hive/conf/hive-env.sh owner=hive group=hive mode=0664
+    tags:
+      - setup_hive
+      - setup_node
+      - configure_hive
+      - setup_client
+      - setup_hive_client
+
+  - name: create warehouse directory in HDFS
+    shell: hdfs dfs -mkdir -p /apps/hive/warehouse;hdfs dfs -chown -R hive /apps/hive; hdfs dfs -chmod -R 0755 /apps/hive
+    become_user: hdfs
+    when: inventory_hostname in  "{{ groups.hive_metastore }}"
+    tags:
+      - setup_hive
+      - setup_node
+      - configure_hive
+
+  - name: copy hive log rotation file
+    template: src=files/hive-log-rotation dest=/etc/logrotate.d/hive owner=hive group=hive mode=0644
+    tags:
+      - setup_hive
+      - setup_node
+      - configure_hive

@@ -1,0 +1,28 @@
+- name: Check if kafka is running
+  shell: lsof -i:{{ kafka_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_kafka_status
+  tags:
+    - start
+    - check_kafka
+    - cluster_setup
+    - check
+ 
+- name: Execute kafka
+  command: sudo /etc/init.d/kafka-server start
+  args:
+      executable: /bin/bash
+  tags:
+    - start
+    - start_kafka
+    - cluster_setup
+
+- name: Stop kafka server,if started
+  command: sudo /etc/init.d/kafka-server stop
+  tags:
+    - stop_kafka
+    - stop
+    - never

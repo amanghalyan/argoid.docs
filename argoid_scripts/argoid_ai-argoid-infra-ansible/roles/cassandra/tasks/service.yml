@@ -1,0 +1,27 @@
+  - name: Check if cassandra is running
+    shell: lsof -i:{{ cassandra_port }} -t
+    args:
+      executable: /bin/bash
+    ignore_errors: yes
+    changed_when: false
+    register: start_cassandra_status
+    tags:
+      - check_cassandra
+      - check
+      - start_cassandra
+      - start
+      
+  - name: Start cassandra start
+    command: /etc/init.d/cassandra start
+    when: start_cassandra_status.rc == 1
+    tags:
+      - start_cassandra
+      - start
+   
+  - name: Stop cassandra start
+    command: /etc/init.d/cassandra stop
+    tags:
+    - stop
+    - stop_cassandra
+    - never
+

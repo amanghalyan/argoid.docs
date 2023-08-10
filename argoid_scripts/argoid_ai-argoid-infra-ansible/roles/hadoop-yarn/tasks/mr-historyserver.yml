@@ -1,0 +1,57 @@
+- name: Install MapReduce-History-Server
+  yum:
+    name: hadoop-mapreduce-historyserver.x86_64
+    state: present
+  tags:
+  - setup_mapreduce_historyserver
+  - setup_historyserver
+
+- name: create HDFS /user  directory
+  shell: hdfs dfs -mkdir -p /user; hdfs dfs -chmod -R 0777 /user
+  become_user: hdfs
+  tags:
+  - setup_mapreduce_historyserver
+  - setup_historyserver
+
+- name: create HDFS /app-logs  directory
+  shell: hdfs dfs -mkdir -p /app-logs ; hdfs dfs -chmod -R 0777 /app-logs ; hdfs dfs -chown -R :mapred /app-logs ;
+  become_user: hdfs
+  tags:
+  - setup_mapreduce_historyserver
+  - setup_historyserver
+
+- name: Check if Mapreduce history server  is running
+  shell: lsof -i:{{ jobhistory_web_port  }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: service_mr_history_service
+  changed_when: false
+  tags:
+  - setup_historyserver
+  - setup_mapreduce_historyserver
+  - check_mapreduce_historyserver
+  - start_mapreduce_historyserver
+  - check 
+
+- name: Start hadoop-mapreduce-historyserver   service
+  command: /etc/init.d/hadoop-mapreduce-historyserver start
+  when: service_mr_history_service.rc == 1
+  tags:
+  - setup_historyserver
+  - setup_mapreduce_historyserver
+  - start_mapreduce_historyserver
+  - start
+  
+
+- name: Stop hadoop-mapreduce-historyserver service
+  command: /etc/init.d/hadoop-mapreduce-historyserver stop
+  tags:
+  - stop_mapreduce_historyserver
+  - never
+
+- name: Restart hadoop-mapreduce-historyserver  service
+  command: /etc/init.d/hadoop-mapreduce-historyserver restart
+  tags:
+  - restart_mapreduce_historyserver
+  - never

@@ -1,0 +1,432 @@
+groups:
+- name: rarerabbit.hdfs.files.rules
+  rules:
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/customers/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/customers/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/customers/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/customers/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/collections/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/collections/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/collections/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/collections/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/orders/version=3 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/orders/version=3"}[100m]) * 1000 <= 10 and on() hour() > 22 < 20
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/orders/version=3 HDFS  directory from past 2 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/orders/version=3"}[130m]) * 1000 <= 10 and on() hour() > 23 < 20
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-3h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/clickstream/version=2 HDFS  directory from past 60 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/clickstream/version=2"}[60m]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/clickstream/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/clickstream/version=2"}[90m]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-3h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/orders/version=3 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/orders/version=3"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/orders/version=3 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/orders/version=3"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/collections/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/collections/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/collections/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/collections/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit batch_recommendations/intermediate_results/version=3 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/intermediate_results/version=3"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit batch_recommendations/intermediate_results/version=3 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/intermediate_results/version=3"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/customers/version=7 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/customers/version=7"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/customers/version=7 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/customers/version=7"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/products/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/products/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/products/version=2 HDFS  directory from past 120 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/products/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/product_variants/version=2 HDFS  directory from past 90 min
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/product_variants/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/product_variants/version=2 HDFS  directory from past 120 min
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/product_variants/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit recommendations/pdp_fbt_lsi_p/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendations/pdp_fbt_lsi_p/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit recommendations/pdp_fbt_lsi_p/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendations/pdp_fbt_lsi_p/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit recommendation_served/pdp_you_may_also_like/version=1 HDFS  directory from past 3 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_you_may_also_like/version=1"}[3h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit recommendation_served/pdp_you_may_also_like/version=1 HDFS  directory from past 5 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_you_may_also_like/version=1"}[5h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit recommendation_served/pdp_style_it_with/version=1 HDFS  directory from past 3 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_style_it_with/version=1"}[3h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit recommendation_served/pdp_style_it_with/version=1 HDFS  directory from past 5 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_style_it_with/version=1"}[5h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit recommendation_served/pdp_similar_items/version=1 HDFS  directory from past 3 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_similar_items/version=1"}[3h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit recommendation_served/pdp_similar_items/version=1 HDFS  directory from past 5 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/recommendation_served/pdp_similar_items/version=1"}[5h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/products/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/products/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/products/version=2 HDFS  directory from past 120 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/products/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit ingestion/product_variants/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/product_variants/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit ingestion/product_variants/version=2 HDFS  directory from past 120 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/ingestion/product_variants/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit batch_recommendations/pdp_style_it_with/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_style_it_with/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit batch_recommendations/pdp_style_it_with/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_style_it_with/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit batch_recommendations/pdp_attribute_based_similar_items/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_attribute_based_similar_items/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit batch_recommendations/pdp_attribute_based_similar_items/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_attribute_based_similar_items/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit batch_recommendations/pdp_cnn_vgg_similar_items/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_cnn_vgg_similar_items/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit batch_recommendations/pdp_cnn_vgg_similar_items/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_cnn_vgg_similar_items/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/clickstream_for_metrics/version=6 HDFS  directory from past 70 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_for_metrics/version=6"}[70m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/clickstream_for_metrics/version=6 HDFS  directory from past 100 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_for_metrics/version=6"}[100m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/clickstream_abtest/version=6 HDFS  directory from past 70 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_abtest/version=6"}[70m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/clickstream_abtest/version=6 HDFS  directory from past 100 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_abtest/version=6"}[100m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit batch_recommendations/pdp_product_type_you_may_also_like/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_product_type_you_may_also_like/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit batch_recommendations/pdp_product_type_you_may_also_like/version=1 HDFS  directory from past 28  hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/batch_recommendations/pdp_product_type_you_may_also_like/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/clickstream_all_customers/version=1 HDFS  directory from past 70 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_all_customers/version=1"}[70m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/clickstream_all_customers/version=1 HDFS  directory from past 100 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/clickstream_all_customers/version=1"}[100m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/all_customers_clickstream_for_metrics/version=1 HDFS  directory from past 70 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/all_customers_clickstream_for_metrics/version=1"}[70m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/all_customers_clickstream_for_metrics/version=1 HDFS  directory from past 100 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/all_customers_clickstream_for_metrics/version=1"}[100m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No HDFS writes under following Rarerabbit processed/aggregated_events/version=1 HDFS  directory from past 70 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/aggregated_events/version=1"}[70m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(RR) CRITICAL  No HDFS writes under following Rarerabbit processed/aggregated_events/version=1 HDFS  directory from past 100 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/rarerabbit/processed/aggregated_events/version=1"}[100m]) * 1000 <= 10
+    for: 20m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=18&fullscreen&orgId=1&from=now-24h&to=now"

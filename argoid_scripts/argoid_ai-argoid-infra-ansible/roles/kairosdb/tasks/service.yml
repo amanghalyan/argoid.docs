@@ -1,0 +1,41 @@
+  - name: enable kairosdb.service
+    service:
+      name: kairosdb
+      enabled: yes
+      daemon_reload: yes
+    tags:
+      - setup_node
+      - setup_kairosdb
+
+  - name: Check if kairosdb is running
+    shell: lsof -i:{{kairosdb_port}} -t 
+    args:
+      executable: /bin/bash
+    ignore_errors: yes
+    changed_when: false
+    register: service_kairosdb_status
+    tags: 
+      - check_kairosdb 
+      - check
+      - start_kairosdb
+      - start
+
+  - name: Start KairosDB 
+    service: 
+      name: kairosdb
+      state: started
+    become: yes
+    when: service_kairosdb_status.rc == 1
+    tags:
+      - start_kairosdb 
+      - start
+
+  - name: stop kairosdb 
+    service:
+      name: kairosdb
+      state: stopped
+    tags:
+      - stop_kairosdb
+      - stop
+      - never 
+   

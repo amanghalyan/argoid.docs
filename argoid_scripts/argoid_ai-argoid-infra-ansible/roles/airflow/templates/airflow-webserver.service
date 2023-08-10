@@ -1,0 +1,17 @@
+[Unit]
+Description=Airflow Webserver daemon
+
+[Service]
+PIDFile=/run/airflow/webserver.pid
+User=airflow
+Group=airflow
+Type=simple
+EnvironmentFile={{ environmentfile }}
+ExecStart={{ python3_virtualenv_path }}/bin/python {{ python3_virtualenv_path }}/bin/airflow webserver  -p {{ airflow_webserver_port }}   --pid /run/airflow/webserver.pid
+##Environment="PATH={{ python3_virtualenv_path }}/bin:{{ ansible_env.PATH }}"
+Restart=on-failure
+RestartSec=5s
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

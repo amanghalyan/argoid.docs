@@ -1,0 +1,77 @@
+---
+- name: Install Journalnode
+  yum:
+    name: hadoop-hdfs-journalnode.x86_64
+    state: present
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_journalnode }}"
+    - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+
+- name: Disable Auto-Reboot of hadoop-hdfs-journalnode  Service
+  systemd:
+    name: hadoop-hdfs-journalnode
+    enabled: no
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_journalnode }}"
+    - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+
+- name: Install Namenode
+  yum:
+    name: hadoop-hdfs-namenode.x86_64
+    state: present
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_namenode }}"
+  tags:
+  - setup_hdfs
+
+- name: Disable Auto-Reboot of hadoop-hdfs-namenode  Service
+  systemd:
+    name: hadoop-hdfs-namenode
+    enabled: no
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_namenode }}"
+  tags:
+  - setup_hdfs
+
+- name: Install ZKFC
+  yum:
+    name: hadoop-hdfs-zkfc.x86_64
+    state: present
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_namenode }}"
+    - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+
+- name: Disable Auto-Reboot of hadoop-hdfs-zkfc  Service
+  systemd:
+    name: hadoop-hdfs-zkfc
+    enabled: no
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_namenode }}"
+    - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+
+- name: Install Datanode
+  yum:
+    name: hadoop-hdfs-datanode.x86_64
+    state: present
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_datanode }}"
+  tags:
+  - setup_hdfs
+
+- name: Disable Auto-Reboot of hadoop-hdfs-datanode  Service
+  systemd:
+    name: hadoop-hdfs-datanode
+    enabled: no
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_datanode }}"
+  tags:
+  - setup_hdfs
+

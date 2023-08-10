@@ -1,0 +1,6 @@
+---
+- hosts: argoid
+  gather_facts: true
+  become: yes
+  roles:
+    - roles/ansible-ssh-user

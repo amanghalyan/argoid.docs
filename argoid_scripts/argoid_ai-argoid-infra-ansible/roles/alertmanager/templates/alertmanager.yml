@@ -1,0 +1,43 @@
+global:
+  resolve_timeout: 2m
+  smtp_smarthost: '{{ smtp_smarthost }}'
+  smtp_from: '{{ smtp_auth_username }}'
+  smtp_auth_username: '{{ smtp_auth_username }}'
+  smtp_auth_password: '{{ smtp_auth_password }}'
+  smtp_require_tls: true
+
+route:
+  group_by: [alertname, job]
+  group_wait: {{ group_wait }}
+  group_interval: {{ group_interval }}
+  repeat_interval: {{ repeat_interval }}
+  receiver: 'default_receiver'
+
+  routes:
+  - match:
+      team: {{ alert_recievers }}
+    group_by: [product, environment]
+    receiver: '{{alert_recievers}}'
+    continue: true
+
+templates:
+- /opt/alertmanager/notifications.tmpl
+
+receivers:
+  - name: 'default_receiver'
+    email_configs:
+      - to: '{{ alertmanager_receiver_mail }}'
+        send_resolved: true
+
+  - name: '{{ alert_recievers }}'
+    email_configs:
+      - to: ' {{ alertmanager_receiver_mail }}'
+
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+

@@ -1,0 +1,10 @@
+groups:
+- name: resourcemanager.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Resourcemanager  service is down
+    expr: up{job=~"resourcemanager_.*"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Resourcemanager service is  down http://10.0.0.15:3000/d/edu4Ke7Wk/yarn?orgId=1&from=now-1h&to=now"

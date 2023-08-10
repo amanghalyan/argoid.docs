@@ -1,0 +1,24 @@
+- name: Add the inventory into /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ hostvars[item]['ansible_fqdn'] }} {{ hostvars[item]['ansible_hostname'] }}"
+    state: present
+    backup: yes
+  register: hosts_file
+  when: hostvars[item].ansible_default_ipv4.address is defined
+  with_items: "{{ groups['argoid'] }}"
+  tags:
+    - setup_node
+    - cluster_setup
+    - map_hostname
+
+- name: Clean hosts file backups
+  shell: ls  /etc/hosts.*@*~ | sort |  head -n-4 | xargs rm
+  when: hosts_file.changed
+  register: fail_me
+  failed_when: "fail_me.rc != 0 and fail_me.rc != 123"
+  tags:
+    - setup_node
+    - cluster_setup
+    - map_hostname

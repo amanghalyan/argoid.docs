@@ -1,0 +1,46 @@
+---
+- name: Create Graphite-Exporter group
+  group: name=graphite-exporter state=present
+  tags:
+    - setup_node
+    - setup_graphite_exporter
+
+- name: Create Graphite-Exporter  user
+  user: name=graphite-exporter state=present group=graphite-exporter
+  tags:
+    - setup_node
+    - setup_graphite_exporter
+
+- name: Create Graphite-Exporter Directory
+  file:
+    path: "{{ graphite_mapping_dir }}"
+    state: directory
+    owner: graphite-exporter
+    group: graphite-exporter
+    mode: 0755
+  tags:
+  - setup_node
+  - setup_graphite_exporter
+
+- name: Copy Graphite-Exporter mapping config file
+  template:
+      src: files/graphite_mapping.conf
+      dest: "{{ graphite_mapping_conf }}"
+      owner: graphite-exporter
+      group: graphite-exporter
+      mode: '0755'
+  tags:
+  - setup_node
+  - setup_graphite_exporter 
+
+- name: Copy Spark metrics.properties file
+  template:
+      src: files/metrics.properties
+      dest: "{{ spark_dir }}/conf/" 
+      owner: root
+      group: root
+      mode: '0755'
+  tags:
+  - setup_node
+  - setup_graphite_exporter
+

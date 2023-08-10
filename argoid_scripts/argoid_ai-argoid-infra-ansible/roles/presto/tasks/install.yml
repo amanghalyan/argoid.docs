@@ -1,0 +1,74 @@
+- name: Create presto group
+  group: name=presto state=present
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+- name: Create presto user
+  user: name=presto state=present
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+- name: Check presto  existence
+  stat:
+    path: /opt/presto/bin
+  register: presto_existence
+  ignore_errors: True
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+
+- name: creating presto  directory
+  file:
+    path: "{{presto_dir}}"
+    state: directory
+    owner: presto
+    group: presto
+    mode: 0755
+  when: presto_existence.stat.exists == False
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+- name: Download presto_source_url
+  get_url:
+    url: "{{presto_source_url}}"
+    dest: /tmp/
+    mode: 0777
+    force: "{{force}}"
+  when: presto_existence.stat.exists == False
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+- name: Extract presto archive
+  unarchive:
+     src: "{{presto_tar}}"
+     dest: /opt/presto
+     creates: /opt/presto/bin
+     owner: presto
+     group: presto
+     mode: 0755
+     remote_src: yes
+     extra_opts: [--strip-components=1]  
+  when: presto_existence.stat.exists == False
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup
+
+- name: Remove file presto archive 
+  file:
+    path: "{{presto_tar}}"
+    state: absent
+  tags:
+    - setup_node
+    - setup_presto
+    - cluster_setup

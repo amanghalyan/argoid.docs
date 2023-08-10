@@ -1,0 +1,37 @@
+---
+- name: Create Prometheus configuration directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ prometheus_mount_config_dir }}/rules"
+  tags:
+  - setup_node
+  - setup_prometheus
+
+- name: Create Prometheus data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 1777
+  with_items:
+    - "{{ prometheus_mount_data_dir }}"
+  tags:
+  - setup_node
+  - setup_prometheus
+
+- name: Copy Prometheus configuration
+  template:
+    src: "files/prometheus.yml"
+    dest: "{{ prometheus_mount_config_dir }}/"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+  - setup_node
+  - setup_prometheus

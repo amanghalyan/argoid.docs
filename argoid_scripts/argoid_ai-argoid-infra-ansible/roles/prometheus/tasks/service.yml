@@ -1,0 +1,42 @@
+---
+- name: Start Prometheus container
+  docker_container:
+    name: "{{ prometheus_container_name }}"
+    image: "{{ prometheus_docker_image }}"
+    volumes:
+      - "{{ prometheus_mount_config_dir }}:{{ prometheus_config_dir }}"
+      - "{{ prometheus_mount_data_dir }}:{{ prometheus_data_dir }}"
+    state: started
+    ports:
+      - "{{ prometheus_port }}:9090"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - start_prometheus
+    - start
+
+## This module not required in saas-stage env
+#- name: Start node exporter container
+#  docker_container:
+#    name: "{{ node_exporter_container_name }}"
+#    image: "{{ node_exporter_docker_image }}"
+#    state: started
+#    ports:
+#      - "{{ node_exporter_port }}:9100"
+#  vars:
+#    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+#  tags:
+#    - start_prometheus
+#    - start
+
+- name: Stop Prometheus container
+  docker_container:
+    name: "{{ prometheus_container_name }}"
+    state: absent
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_prometheus
+    - stop
+    - never
+

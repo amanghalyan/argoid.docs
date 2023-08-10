@@ -1,0 +1,110 @@
+  - name: create presto conf directory (/opt/presto/etc)
+    file:
+      path: "{{presto_etc_dir}}"
+      state: directory
+      owner: presto
+      group: presto
+      mode: 0755
+    tags:
+      - setup_node
+      - setup_presto
+      - cluster_setup
+
+  - name: create presto data directory
+    file:
+      path: "{{presto_data_dir}}"
+      state: directory
+      owner: presto
+      group: presto
+      mode: 0755
+    tags:
+      - setup_node
+      - setup_presto
+      - cluster_setup
+
+
+  - name: copy presto properties file
+    template:
+       src: "{{ item }}"
+       dest: "{{presto_dir}}/etc/"
+       force: yes
+       owner: presto
+       group: presto
+       mode: 0664
+       backup: yes
+    with_items:
+       - templates/node.properties
+       - templates/jvm.config
+    tags:
+      - setup_node
+      - cluster_setup
+      - setup_presto
+      - configure_presto
+
+  - name: copy co-ordinator config file
+    template:
+      src: templates/coordinator_config.properties
+      dest: "{{presto_etc_dir}}/config.properties"
+      force: yes
+      mode: 0644
+      owner: presto
+      group: presto
+    tags:
+      - setup_node
+      - cluster_setup
+      - setup_presto
+      - configure_presto
+
+  - name: create catalog directory
+    file:
+      path: "{{presto_etc_dir}}/catalog/"
+      state: directory
+      owner: presto
+      group: presto
+      mode: 0755
+    tags:
+      - configure_presto
+      - setup_node
+      - setup_presto
+      - cluster_setup
+
+  - name: copy catalaog jmx.properties file
+    template:
+      src: templates/jmx.properties
+      dest: "{{presto_etc_dir}}/catalog/"
+      owner: presto
+      group: presto
+      mode: 0644
+      force: yes
+    tags:
+      - configure_presto
+      - setup_node
+      - setup_presto
+      - cluster_setup
+
+  - name: copy catalaog hive.properties file
+    template:
+      src: templates/hive.properties
+      dest: "{{presto_etc_dir}}/catalog/"
+      owner: presto
+      group: presto
+      mode: 0644
+      force: yes
+    tags:
+      - configure_presto
+      - setup_node
+      - setup_presto
+      - cluster_setup
+
+  - name: install systemd presto.service
+    template:
+      src: templates/presto.service
+      dest: /etc/systemd/system/presto.service
+      mode: 0644
+      backup: yes
+    tags:
+      - setup_node
+      - cluster_setup
+      - setup_presto
+      - configure_presto
+

@@ -1,0 +1,92 @@
+---
+- name: Check if redis is running
+  shell: lsof -i:{{ redis_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: service_redis_status
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - check
+    - check_redis
+    - setup_redis
+    - setup_node
+    - cluster_setup
+
+- name: Check if sentinel  is running
+  shell: lsof -i:{{ redis_sentinel_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  when: inventory_hostname in  "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+  register: service_sentinel_status
+  tags:
+    - check_sentinel
+    - check
+    - cluster_setup
+   
+- name: Start redis
+  service:
+    state: started
+    name: redis
+  when:
+    - inventory_hostname in  "{{ groups.redis_server }}" 
+    - service_redis_status.rc == 1
+  tags:
+    - start_redis
+    - start
+    - cluster_setup
+
+- name: Start sentinel
+  service:
+    state: started
+    name: sentinel
+  when: 
+    - inventory_hostname in  "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+    - service_sentinel_status.rc == 1
+  tags:
+    - start_sentinel
+    - start
+    - cluster_setup
+
+- name: Stop service sentinel, if started
+  service:
+    state: stopped
+    name: sentinel
+  when: inventory_hostname in "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+  tags:
+    - stop_sentinel
+    - stop
+    - never
+
+- name: Stop service redis, if started
+  service:
+    state: stopped
+    name: redis
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - stop_redis
+    - stop
+    - never
+
+- name: Restart redis
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: redis
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - restart_redis
+    - restart
+    - never
+
+- name: Restart sentinel
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: sentinel
+  when: inventory_hostname in "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+  tags:
+    - restart_sentinel
+    - restart
+    - never

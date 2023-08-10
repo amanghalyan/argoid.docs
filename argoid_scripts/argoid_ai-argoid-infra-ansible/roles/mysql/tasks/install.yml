@@ -1,0 +1,41 @@
+---
+- name: Download Mysql8 epel-release
+  yum:
+    name: "{{mysql_rpm_source_url}}"
+    state: present
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: install mysql
+  yum:
+    name:
+      - mysql-community-devel*
+      - mysql-community-server*
+      - MySQL-python
+    state: present
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: Disable SELinux
+  selinux: state=disabled
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: create directory /data/1/mysql
+  file:
+    path: "{{mysql_data_dir}}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+    recurse: yes
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup

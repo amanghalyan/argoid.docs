@@ -1,0 +1,112 @@
+---
+- name: Pause - Bootstrapping is about to begin
+  pause: prompt="Are you sure that you want to continue bootstrapping HDFS?" seconds=30
+  tags:
+  - format_namenode
+  - never
+
+
+- name: Ensure that journal nodes are running
+  command: /etc/init.d/hadoop-hdfs-journalnode start
+  when: inventory_hostname in "{{ groups.hdfs_journalnode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Check if namenode is running
+  shell: lsof -i:50070 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_namenode_status
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Format the namenode "{{ groups.hdfs_namenode[0] }}"  - Will NOT FORMAT if current/VERSION path exists to avoid data loss
+  command: bash -lc "/usr/bin/hdfs namenode -format -nonInteractive"
+  args:
+    creates: "{{ hdfs_namenode_dir}}/current/VERSION"
+  become_user: hdfs
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}" and service_namenode_status.rc == 1 
+  register: register_hdfs_namenode_format
+  failed_when: "register_hdfs_namenode_format.rc != 0 and 'and data appears to exist in Storage Directory' not in register_hdfs_namenode_format.stderr"
+  tags:
+  - format_namenode
+  - never
+
+- name: Start namenode "{{groups.hdfs_namenode[0]}}"
+  command: /etc/init.d/hadoop-hdfs-namenode start
+  when: inventory_hostname ==  "{{ groups.hdfs_namenode[0] }}"  and service_namenode_status.rc == 1
+  tags:
+  - format_namenode
+  - never
+
+- name: Wait for the namenode "{{ groups.hdfs_namenode[0] }}" to come online
+  wait_for: 
+    host: '{{ groups.hdfs_namenode[0] }}'
+    port: 50070
+    delay: 3
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Bootstrap the standby namenode "{{hdfs_namenode[1]}}"
+  command: bash -lc "/usr/bin/hdfs namenode -bootstrapStandby -nonInteractive "
+  args:
+    creates: "{{ hdfs_namenode_dir[0] }}/current/VERSION"
+  become_user: hdfs
+  when: inventory_hostname == "{{ groups.hdfs_namenode[1] }}"  and service_namenode_status.rc == 1
+  register: bootstrap_out
+  failed_when: "bootstrap_out.rc != 0 and 'and data appears to exist in Storage Directory' not in bootstrap_out.stderr "
+  tags:
+  - format_namenode
+  - never
+
+
+- name: Start namenode {{hdfs_namenode[1]}}
+  command: /etc/init.d/hadoop-hdfs-namenode start
+  when: inventory_hostname == "{{ groups.hdfs_namenode[1] }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Add Fencing mechanism
+  lineinfile: path=/usr/lib/hadoop/script.sh line=#!/bin/sh state=present create=yes
+  tags:
+  - format_namenode
+  - never
+
+- name: Format zkfc
+  command: bash -lc "/usr/bin/hdfs zkfc -formatZK -force "
+  become_user: hdfs
+  register: zkfc_format
+  failed_when: "zkfc_format.rc != 0 and  'Directory not empty for' not in zkfc_format.stderr"
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Start zkfc services
+  command: /etc/init.d/hadoop-hdfs-zkfc start
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Start data nodes
+  command: /etc/init.d/hadoop-hdfs-datanode start
+  when: inventory_hostname in "{{ groups.hdfs_datanode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Bootstrapping complete
+  debug: "msg='New namenode can be opened at http://{{ inventory_hostname }}:50070/'"
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - format_namenode
+  - never

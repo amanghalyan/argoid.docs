@@ -1,0 +1,40 @@
+---
+- name: Check if Nginx-exporter port is free
+  shell: lsof -i:{{ nginx_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: nginx_exporter_status
+  tags:
+    - start_nginx_exporter
+    - check_nginx_exporter
+    - start
+    - check
+
+- name: Start Nginx-Exporter container
+  docker_container:
+    name: "{{ nginx_exporter_container_name }}"
+    image: "{{ nginx_exporter_docker_image }}"
+    state: started
+    ports:
+      - "{{ nginx_exporter_port }}:9113"
+    command: "-nginx.scrape-uri=http://{{groups.nginx[0] }}:7121/metrics -nginx.ssl-verify=false"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: nginx_exporter_status.rc == 1
+  tags:
+    - start_nginx_exporter
+    - start
+
+
+- name: Stop Nginx-Exporter container
+  docker_container:
+    name: "{{ nginx_exporter_container_name }}"
+    image: "{{ nginx_exporter_docker_image }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_nginx_exporter
+    - stop

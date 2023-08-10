@@ -1,0 +1,4 @@
+---
+# configure.yml playbook not required in saas-stage.ini
+- import_tasks: configure.yml
+- import_tasks: service.yml

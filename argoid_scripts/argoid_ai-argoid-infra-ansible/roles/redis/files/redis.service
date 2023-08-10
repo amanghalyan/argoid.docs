@@ -1,0 +1,15 @@
+[Unit]
+Description=Redis Data Store
+After=network.target
+
+[Service]
+User=redis
+Group=redis
+LimitNOFILE=65536
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf 
+ExecStop=/usr/local/bin/redis-cli shutdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

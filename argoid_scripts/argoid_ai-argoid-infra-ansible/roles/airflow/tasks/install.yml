@@ -1,0 +1,128 @@
+  - name: Create airflow group
+    group: name=airflow state=present
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+  - name: Create airflow user
+    user: name=airflow state=present
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+  - name: Check airflow existence
+    stat:
+      path: "{{ airflow_dir }}/airflow.cfg "
+    register: airflow_existence
+    ignore_errors: True
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+  - name: Creating airflow home  directory
+    file:
+      path: "{{ airflow_dir }}"
+      recurse: yes
+      owner: airflow
+      group: airflow
+      mode: '755'
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+
+  - name: Stat for Airflow Installation
+    stat:
+      path: "{{ python3_virtualenv_path }}/bin/airflow"
+    register: pip_airflow_installed
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+      - test
+
+
+  - name: Download Pip-Installer
+    get_url:
+      url: https://bootstrap.pypa.io/get-pip.py
+      dest: "{{ python3_virtualenv_path }}"
+    when: pip_airflow_installed.stat.exists == False
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+      - test
+
+
+  - name: Install latest Pip
+    shell: "{{ python3_virtualenv_path }}/bin/python {{ python3_virtualenv_path }}/get-pip.py"
+    when: pip_airflow_installed.stat.exists == False
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+      - test
+ 
+
+  - name: Install Airflow in python3 venv
+    pip:
+      name: "{{airflow_packages}}"
+      virtualenv: "{{ python3_virtualenv_path }}"
+      virtualenv_python: python{{python_venv_version}} 
+    tags:
+      - setup_airflow
+      - setup_node
+      - cluster_setup
+      - test
+
+
+  - name: Copy Airflow profile.d file
+    template:
+      src: templates/airflow-profile.sh 
+      dest: "/etc/profile.d/airflow.sh"
+      mode: 0644
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+
+  - name: Give ownership of pythonvirtual environment to airflow user
+    file:
+      path: "{{ python3_virtualenv_path }}" 
+      owner: airflow
+      group: airflow
+      mode: '755'
+      recurse: yes
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+  - name: Creating run/airflow directory
+    file:
+      path: /run/airflow
+      recurse: yes
+      owner: airflow
+      group: airflow
+      mode: '755'
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup
+
+  - name: Creating airflow DAGs directory
+    file:
+      path: "{{ airflow_dags_dir }}"
+      recurse: yes
+      owner: airflow
+      group: airflow
+      mode: '755'
+    tags:
+      - setup_node
+      - setup_airflow
+      - cluster_setup

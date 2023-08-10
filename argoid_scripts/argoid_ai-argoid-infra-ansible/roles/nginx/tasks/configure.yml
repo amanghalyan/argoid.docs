@@ -1,0 +1,12 @@
+- name: Copy nginx configuration
+  template:
+      src: files/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      owner: nginx
+      group: nginx
+      mode: '0755'
+  tags:
+    - setup_node
+    - configure_nginx
+    - setup_nginx
+    - cluster_setup

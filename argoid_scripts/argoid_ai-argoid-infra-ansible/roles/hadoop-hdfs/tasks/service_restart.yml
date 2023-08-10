@@ -1,0 +1,31 @@
+- name: Restart Journalnode
+  command: /etc/init.d/hadoop-hdfs-journalnode restart
+  when:
+  - inventory_hostname in "{{ groups.hdfs_journalnode }}"
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - restart_journalnode
+  - never
+
+- name: Restart Namenode
+  command: /etc/init.d/hadoop-hdfs-namenode restart
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" 
+  tags:
+  - restart_namenode
+  - never
+
+- name: Restart ZKFC
+  command: /etc/init.d/hadoop-hdfs-zkfc restart
+  when:
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - restart_zkfc
+  - never
+
+- name: Restart Datanode
+  command: /etc/init.d/hadoop-hdfs-datanode restart
+  when: inventory_hostname in "{{ groups.hdfs_datanode }}"
+  tags:
+  - restart_datanode
+  - never

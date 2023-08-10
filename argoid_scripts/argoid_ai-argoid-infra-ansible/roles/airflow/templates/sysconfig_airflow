@@ -1,0 +1,7 @@
+HADOOP_CONF_DIR=/etc/hadoop/conf
+SPARK_DIST_CLASSPATH=$(hadoop classpath)
+JAVA_HOME=/usr/java/jdk1.8.0_201-amd64/
+SPARK_HOME=/opt/spark
+AIRFLOW_HOME=/home/airflow/airflow"
+AIRFLOW_CONFIG=/home/airflow/airflow/airflow.cfg
+PATH={{ python3_virtualenv_path }}/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/airflow/.local/bin:/home/airflow/bin

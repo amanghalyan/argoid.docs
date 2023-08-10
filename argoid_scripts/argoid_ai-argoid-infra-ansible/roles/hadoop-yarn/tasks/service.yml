@@ -1,0 +1,59 @@
+- name: Check if YARN ResourceManager  is running
+  shell: lsof -i:8088 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: service_yarn_rm_service
+  changed_when: false
+  when: inventory_hostname in "{{ groups.yarn_resourcemanager }}"
+  tags:
+  - setup_yarn
+  - check_yarn_resourcemanager
+  - check
+
+- name: Start ResourceManagers
+  command: /etc/init.d/hadoop-yarn-resourcemanager start
+  when: inventory_hostname in "{{ groups.yarn_resourcemanager }}" and service_yarn_rm_service.rc == 1
+  tags:
+  - setup_yarn
+  - start_yarn_resourcemanager
+  - start
+
+- name: Stop  ResourceManagers
+  command: /etc/init.d/hadoop-yarn-resourcemanager stop
+  when: inventory_hostname in "{{ groups.yarn_resourcemanager }}"
+  tags:
+  - stop_yarn_resourcemanager
+  - stop
+  - never
+
+- name: Check if YARN NodeManager  is running
+  shell: lsof -i:8042 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: service_yarn_nm_service
+  changed_when: false
+  when: inventory_hostname in "{{ groups.yarn_nodemanager }}"
+  tags:
+  - setup_yarn
+  - setup_nodemanager
+  - check_yarn_nodemanager
+  - check
+
+- name: Start NodeManagers
+  service: name=nodemanager-modify state=started enabled=yes
+  when: inventory_hostname in "{{ groups.yarn_nodemanager }}" and service_yarn_nm_service.rc == 1
+  tags:
+  - setup_yarn
+  - setup_nodemanager
+  - start_yarn_nodemanager
+  - start
+
+- name: Stop NodeManagers
+  command: /etc/init.d/hadoop-yarn-nodemanager stop
+  when: inventory_hostname in "{{ groups.yarn_nodemanager }}" 
+  tags:
+  - stop_yarn_nodemanager
+  - stop
+  - never

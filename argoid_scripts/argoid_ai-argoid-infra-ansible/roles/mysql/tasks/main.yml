@@ -1,0 +1,6 @@
+---
+# tasks file for mysql
+- import_tasks: install.yml
+- import_tasks: configure.yml
+- import_tasks: service.yml
+- import_tasks: mysql_exporter.yml

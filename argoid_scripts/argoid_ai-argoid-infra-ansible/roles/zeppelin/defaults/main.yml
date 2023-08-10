@@ -1,0 +1,7 @@
+---
+# defaults file for zeppelin
+zeppelin_jvm_heap_size: 1024
+zeppelin_dir: /opt/zeppelin
+zeppelin_port: 9081
+force: yes
+zeppelin_jmx_port: 40023

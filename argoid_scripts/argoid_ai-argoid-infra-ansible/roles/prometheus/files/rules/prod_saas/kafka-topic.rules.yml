@@ -1,0 +1,92 @@
+groups:
+- name: kafka-topic.rules
+  rules:
+#  - alert: SaaS-Prod1(ES) WARNING No records produced to topic "entertainmentstore_clickstream_v1" from past 3 hours
+#    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="entertainmentstore_clickstream_v1"}[3h] ) * 10000  < 1 and on() hour() > 2 < 18
+#    for: 10m
+#    labels:
+#      severity: "Warning"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+#  - alert: SaaS-Prod1(ES) CRITICAL No records produced to topic "entertainmentstore_clickstream_v1" from past 4 hours
+#    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="entertainmentstore_clickstream_v1"}[4h] ) * 10000  < 1 and on() hour() > 2 < 18
+#    for: 10m
+#    labels:
+#      severity: "Critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(RR) WARNING No records produced to topic "rarerabbit_clickstream_v1" from past 30 minutes
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="rarerabbit_clickstream_v1"}[30m] ) * 10000  < 1 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL No records produced to topic "rarerabbit_clickstream_v1" from past 60 minutes
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="rarerabbit_clickstream_v1"}[60m] ) * 10000  < 2 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "Critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr1_v1_PDP_SIMILAR_ITEMS_NP" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr1_v1_PDP_SIMILAR_ITEMS_NP"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr1_v1_PDP_STYLE_IT_WITH" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr1_v1_PDP_STYLE_IT_WITH"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr1_v1_PDP_YOU_MAY_ALSO_LIKE" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr1_v1_PDP_YOU_MAY_ALSO_LIKE"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr2_v1_PDP_SIMILAR_ITEMS_NP" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr2_v1_PDP_SIMILAR_ITEMS_NP"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr2_v1_PDP_STYLE_IT_WITH" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr2_v1_PDP_STYLE_IT_WITH"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING No\less records produced to topic "prod_rr2_v1_PDP_YOU_MAY_ALSO_LIKE" from past 10 hours
+    expr: rate(kafka_server_BrokerTopicMetrics_OneMinuteRate{name="MessagesInPerSec",topic="prod_rr2_v1_PDP_YOU_MAY_ALSO_LIKE"}[10h] ) * 10000  < 50
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=76&fullscreen&orgId=1"
+
+

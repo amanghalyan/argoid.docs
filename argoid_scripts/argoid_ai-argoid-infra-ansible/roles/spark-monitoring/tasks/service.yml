@@ -1,0 +1,44 @@
+---
+- name: Check if Graphite-Exporter port is free
+  shell: lsof -i:{{ graphite_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: graphite_exporter_status
+  tags:
+    - start_graphite_exporter
+    - check_graphite_exporter
+    - start
+    - check
+
+- name: Start Graphite-Exporter Container
+  docker_container:
+    name: "{{ graphite_exporter_container_name }}"
+    image: "{{ graphite_exporter_docker_image }}"
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - "{{ graphite_mapping_conf }}:/tmp/graphite_mapping.conf"
+    ports:
+      - "{{ graphite_exporter_port }}:9108"
+      - "{{ graphite_exporter_sink_port }}:9109"
+    command: --graphite.mapping-config=/tmp/graphite_mapping.conf 
+    state: started
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: graphite_exporter_status.rc == 1
+  tags:
+    - start_graphite_exporter
+    - start
+
+
+- name: Stop Graphite-Exporter Container
+  docker_container:
+    name: "{{ graphite_exporter_container_name }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_graphite_exporter
+    - stop
+    - never

@@ -1,0 +1,45 @@
+---
+- name: Check if postgres-exporter port is free
+  shell: lsof -i:{{ postgres_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: postgres_exporter_status
+  tags:
+    - check_postgres_exporter
+    - check
+    - cluster_setup
+    - setup_postgres
+
+- name: Start Postgres-Exporter container
+  docker_container:
+    name: "{{ postgres_exporter_container_name }}"
+    image: "{{ postgres_exporter_docker_image }}"
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ postgres_exporter_port }}:9187"
+    env:
+      DATA_SOURCE_NAME: "{{ postgres_data_source_name }}"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: postgres_exporter_status.rc == 1
+  tags:
+    - start_postgres_exporter
+    - start
+    - cluster_setup
+    - setup_postgres
+
+- name: Stop Postgres-Exporter container
+  docker_container:
+    name: "{{ postgres_exporter_container_name }}"
+    image: "{{ postgres_exporter_docker_image }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_postgres_exporter
+    - stop
+    - never
+ 

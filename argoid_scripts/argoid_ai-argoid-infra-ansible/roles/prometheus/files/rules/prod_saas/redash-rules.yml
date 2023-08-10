@@ -1,0 +1,63 @@
+groups:
+- name: redash.rules
+  rules:
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_nginx_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_nginx_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_server_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_server_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_adhoc_worker_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_adhoc_worker_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_scheduled_worker_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_scheduled_worker_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_scheduler_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_scheduler_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_redis_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_redis_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redash redash_postgres_1 container or cadvisor is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="redash_postgres_1"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+
+  - alert: SaaS-Prod1(RR) CRITICAL cadvisor container is down on 10.0.0.60
+    expr: absent(container_memory_usage_bytes{name="cadvisor"})  == 1
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:

@@ -1,0 +1,7 @@
+- name: Install common software requirement
+  yum:
+    state: present
+    name: "{{ common_utilities }}"
+  tags:
+    - cluster_setup
+    - setup_node

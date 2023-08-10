@@ -1,0 +1,9 @@
+---
+- name: Install Zookeeper-Server
+  yum:
+    name: zookeeper-server.x86_64
+    state: present
+  tags:
+  - setup_zookeeper
+  - cluster_setup
+

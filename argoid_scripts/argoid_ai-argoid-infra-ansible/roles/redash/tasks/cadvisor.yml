@@ -1,0 +1,50 @@
+---
+- name: Check if cadvisor port is free
+  shell: lsof -i:{{ cadvisor_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: cadvisor_status
+  tags:
+    - start_cadvisor
+    - check_cadvisor
+    - start
+    - check
+    - setup_redash
+    - setup_node
+    - cluster_setup
+
+- name: Start Cadvisor container
+  docker_container:
+    name: "{{ cadvisor_container_name }}"
+    image: "{{ cadvisor_docker_image }}"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    state: started
+    privileged: yes
+    ports:
+      - "{{ cadvisor_port }}:8080"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: cadvisor_status.rc == 1
+  tags:
+    - start_cadvisor
+    - start
+    - setup_redash
+    - setup_node
+    - cluster_setup
+
+- name: Stop Cadvisor container
+  docker_container:
+    name: "{{ cadvisor_container_name }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_cadvisor
+    - stop_redash
+    - stop

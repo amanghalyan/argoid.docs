@@ -1,0 +1,38 @@
+---
+- name: Create journalnode edits dir
+  file:
+    path: "{{ hdfs_dfs_journalnode_edits_dir }}"
+    state: directory
+    owner: hdfs
+    group: hdfs
+    mode: 0755
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_journalnode }}"
+    - "{{ groups['hdfs_namenode'] | length }} > 1 "
+  tags:
+  - setup_hdfs
+
+- name: Create namenode directories
+  file:
+    path: "{{ hdfs_namenode_dir }}"
+    state: directory
+    owner: hdfs
+    group: hdfs
+    mode: 0755
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_namenode }}"
+  tags:
+  - setup_hdfs
+
+- name: Create datanode directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: hdfs
+    group: hdfs
+    mode: 0755
+  with_items: "{{ hdfs_datanode_dir_list }}"
+  when:
+    - inventory_hostname in  "{{ groups.hdfs_datanode }}"
+  tags:
+  - setup_hdfs

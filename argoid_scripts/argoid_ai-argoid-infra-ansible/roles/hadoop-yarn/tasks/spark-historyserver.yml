@@ -1,0 +1,152 @@
+- name: Create /opt/spark directory
+  file:
+    path: "{{spark_dir}}"
+    state: directory
+    owner: hdfs
+    group: hdfs
+    mode: 0775
+    recurse: yes
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Create /tmp/argoid_repo directory
+  file:
+    path: /tmp/argoid_repo
+    state: directory
+    mode: 0777
+    recurse: yes
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Download spark package
+  get_url:
+    url: "{{spark_source_url}}"
+    dest: /tmp/argoid_repo
+    mode: 0777
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Find spark archive with pattern spark*.tgz
+  find:
+    paths: /tmp/argoid_repo
+    patterns: spark*.tgz
+  register: files_to_extract
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Extract spark*.tgz archive
+  unarchive:
+     src: "{{item.path}}"
+     dest: "{{spark_dir}}"
+     creates: "{{spark_dir}}/conf"
+     owner: hdfs
+     group: hdfs
+     mode: 0777
+     remote_src: yes
+     extra_opts: [--strip-components=1]
+  with_items: "{{files_to_extract.files}}"
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Copy spark-defaults.conf configuration file
+  template:
+    src: files/spark-defaults.conf
+    dest: "{{spark_dir}}/conf/spark-defaults.conf"
+    owner: hdfs
+    group: hdfs
+    mode: 0644
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Copy  spark-env.sh  configuration file
+  template:
+    src: files/spark-env.sh
+    dest: "{{spark_dir}}/conf/spark-env.sh"
+    owner: hdfs
+    group: hdfs
+    mode: 0644
+    force: yes
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+
+- name: Create /tmp/applicationHistory  HDFS directory
+  shell: hdfs dfs -mkdir -p /tmp/applicationHistory  ; hdfs dfs -chmod -R 0777 /tmp/applicationHistory
+  become_user: hdfs
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+  
+- name: Create Superuser group in HDFS
+  shell: /usr/bin/getent group supergroup || /usr/sbin/groupadd supergroup &&  /usr/sbin/usermod -aG supergroup hdfs
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+- name: Install systemd for spark-history-server
+  template:
+    src: files/spark-history-server.service
+    dest: /etc/systemd/system/spark-history-server.service
+    mode: 0644
+    backup: yes
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+
+
+- name: Check if spark-history-server  is running
+  shell: lsof -i:{{spark_history_server_web_port}} -t 
+  ignore_errors: yes
+  changed_when: false
+  register: service_spark_history_server_status
+  args:
+    executable: /bin/bash
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+  - check_spark_historyserver
+  - start_spark_historyserver
+  - check
+  - start
+
+- name: Start  spark-history-server
+  service: name=spark-history-server state=started enabled=yes
+  when: service_spark_history_server_status.rc == 1
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+  - check_spark_historyserver
+  - start_spark_historyserver
+  - check
+  - start
+
+- name: Stop spark-history-server
+  service: name=spark-history-server state=stopped
+  tags:
+  - stop_spark_historyserver
+
+- name: Find tar ball to delete
+  find:
+    paths: /tmp/argoid_repo
+    patterns: spark*.tar.gz
+  register: files_to_delete
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver
+  - never
+
+- name: Deletes tar ball
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+  tags:
+  - setup_historyserver
+  - setup_spark_historyserver

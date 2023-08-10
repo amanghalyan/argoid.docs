@@ -1,0 +1,273 @@
+<configuration>
+
+<property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.pmem-check-enabled</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>false</value>
+    </property>
+    
+   <property>
+        <name>yarn.nodemanager.disk-health-checker.enable</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+   
+   <property>
+         <name>yarn.nodemanager.address</name>
+         <value>0.0.0.0:45454</value>
+    </property>
+ 
+  <property>
+     <name>yarn.application.classpath</name>
+     <value>
+        $HADOOP_CONF_DIR,
+        $HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+        $HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+        $HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+        $HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*
+     </value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.bind-host</name>
+    <value>0.0.0.0</value>
+   </property>
+  <property>
+      <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>{{yarn_nodemanager_resource_memory_mb}}</value>
+  </property>
+
+  <property>
+     <name>yarn.nodemanager.resource.cpu-vcores</name>
+     <value>{{yarn_nodemanager_resource_cpu_vcores}}</value>
+  </property>
+  
+  <property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>{{ yarn_nodemanager_local_dirs_path | map('regex_replace', '^(.*)$', '\\1' ) | join(',') }}</value>
+  </property>
+
+ <property>
+   <name>yarn.scheduler.maximum-allocation-mb</name> 
+ <value>{{ yarn_scheduler_maximum_allocation_mb }}</value>
+ </property>
+
+  <property>
+      <name>yarn.log-aggregation.retain-seconds</name>
+      <value>259200</value>
+  </property>
+
+{% if yarn_ha_enabled %}
+  
+  <property>
+        <name>yarn.resourcemanager.state-store.max-completed-applications</name>
+        <value>200</value>
+    </property>
+ 
+   <property>
+        <name>yarn.resourcemanager.store.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.zk-address</name>
+        <value>{{ groups.zookeeper|join(":2181,") }}:2181</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.zk-state-store.parent-path</name>
+        <value>{{ yarn_resourcemanager_zk_path }}</value>
+    </property>
+   
+   <property>
+        <name>yarn.resourcemanager.ha.automatic-failover.zk-base-path</name>
+        <value>{{ yarn_resourcemanager_ha_automatic_failover_zk_base_path }}</value>
+    </property> 
+
+     <property>
+        <name>yarn.resourcemanager.zk-acl</name>
+        <value>world:anyone:rwcda</value>
+    </property>
+
+  <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>true</value>
+    </property>
+  <property>
+        <name>yarn.resourcemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+
+   <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>{{yarn_resourcemanager_cluster_id}}</value>
+    </property>
+  
+   <property>
+        <name>yarn.resourcemanager.work-preserving-recovery.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.work-preserving-recovery.scheduling-wait-ms</name>
+        <value>10000</value>
+    </property>
+
+   <property>
+        <name>yarn.resourcemanager.ha.rm-ids</name>
+        <value>{% for host in groups.yarn_resourcemanager %}rm{{ loop.index }}{% if not loop.last %},{% endif %}{% endfor %}</value>
+    </property>
+
+  {% for host in groups.yarn_resourcemanager %}
+
+   <property>
+        <name>yarn.resourcemanager.hostname.rm{{ loop.index }}</name>
+        <value>{{ host }}</value>
+    </property>
+
+     <property>
+        <name>yarn.resourcemanager.webapp.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8088</value>
+    </property>
+
+     <property>
+        <name>yarn.resourcemanager.webapp.https.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8090</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8050</value>
+    </property>
+
+     <property>
+        <name>yarn.resourcemanager.admin.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8141</value>
+    </property>
+
+   <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8025</value>
+    </property>
+
+  <property>
+        <name>yarn.resourcemanager.scheduler.address.rm{{ loop.index }}</name>
+        <value>{{ host }}:8030</value>
+    </property>
+  {% endfor %}
+
+
+{% endif %}
+
+{% if yarn_enable_log_aggregation  %}
+<property>
+      <name>yarn.log-aggregation-enable</name>
+      <value>true</value>
+</property>
+
+<property>
+      <name>yarn.timeline-service.ttl-ms</name>
+      <value>604800000</value>
+  </property>
+
+  <property>
+      <name>yarn.nodemanager.log.retain-seconds</name>
+      <value>{{ yarn_nodemanager_log_retain_seconds }}</value>
+ </property>
+
+ <property>
+    <description>Where to store container logs.</description>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>{{ yarn_nodemanager_log_dirs_path }}</value>
+  </property>
+
+<property>
+     <name>yarn.nodemanager.remote-app-log-dir</name>
+     <value>{{yarn_nodemanager_remote_app_log_dir}}</value>
+  </property>
+
+  <property>
+      <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+      <value>logs</value>
+  </property>
+
+<property>
+  <name>yarn.timeline-service.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>yarn.timeline-service.generic-application-history.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+    <name>yarn.log.server.url</name>
+    <value>http://{{yarn_log_server_url}}/jobhistory/logs</value>
+  </property>
+
+<property>
+ <name>yarn.timeline-service.webapp.address</name>
+ <value>{{yarn_timelineserver_web_url}}</value>
+</property>
+
+{% endif %}
+
+{% if not yarn_ha_enabled %}
+<property>
+  <name>yarn.resourcemanager.address</name>
+  <value>{{groups.hdfs_namenode[0]}}:8050</value>
+ </property>
+
+<property>
+  <name>yarn.resourcemanager.admin.address</name>
+  <value>{{groups.hdfs_namenode[0]}}:8141</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.scheduler.address</name>
+  <value>{{groups.hdfs_namenode[0]}}:8030</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.resource-tracker.address</name>
+  <value>{{groups.hdfs_namenode[0]}}:8025</value>
+ </property>
+{% endif %}
+
+{% if yarn_enable_node_labelling %}
+<property>
+      <name>yarn.node-labels.enabled</name>
+      <value>true</value>
+</property>
+
+<property>
+      <name>yarn.node-labels.fs-store.root-dir</name>
+      <value>{{hdfs_default_fs }}/yarn/node-labels/</value>
+</property>
+{% endif %}
+
+</configuration>

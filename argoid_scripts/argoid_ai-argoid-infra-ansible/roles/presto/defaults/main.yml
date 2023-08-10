@@ -1,0 +1,14 @@
+---
+# defaults file for presto
+presto_user: argoid 
+presto_properties: templates/node.properties
+presto_jmxremote_port: 9015
+presto_prometheus_port: 9483
+presto_tar: /tmp/presto-server-0.218.tar.gz
+presto_coordinator_ip: "{{hostvars[inventory_hostname].groups['presto'][0]}}"
+presto_source_url: http://{{argoid_bigtop_ip}}/argoid_repo/presto/presto-server-0.218.tar.gz
+presto_data_dir: /var/presto/data/
+presto_etc_dir: /opt/presto/etc/
+presto_dir: /opt/presto
+presto_port: 8077
+presto_hive_conn: "{{hostvars[inventory_hostname].groups['hive_metastore'][0]}}:9083"

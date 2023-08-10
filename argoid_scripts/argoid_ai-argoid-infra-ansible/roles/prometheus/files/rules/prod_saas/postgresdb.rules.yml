@@ -1,0 +1,28 @@
+groups:
+- name: postgres.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Airflow's  Postgres service or Metric exporter is down in 10.0.0.14
+    expr:  up{job="postgresql_100014"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Airflow's Postgres service  is down in 10.0.0.14
+    expr:  pg_up{job="postgresql_100014"} == 0
+    for: 3m
+    labels:
+      severity: "critical"
+
+  - alert: SaaS-Prod1(Common) CRITICAL  Postgres service or Metric exporter is down in 10.0.0.13
+    expr:  up{job="postgresql_100013"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Postgres service  is down in 10.0.0.13
+    expr:  pg_up{job="postgresql_100013"} == 0
+    for: 3m
+    labels:
+      severity: "critical"

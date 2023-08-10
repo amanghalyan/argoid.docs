@@ -1,0 +1,29 @@
+groups:
+- name: kafka.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Kafka heap usage is high
+    expr: sum by (instance)(avg_over_time (jvm_memory_bytes_used{area="heap",job=~"kafka_.*"}[1m]))*100/sum by (instance)(avg_over_time(jvm_memory_bytes_max{area="heap",job=~"kafka_.*"}[1m]))  >= 90
+    for: 3m
+    labels:
+      severity: "Critical"
+    annotations:
+      summary: "kafka  heap usage is high ; Grafana Visualization http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=40&fullscreen&orgId=1"
+      description: "Refer this Runbook https://argoid.atlassian.net/wiki/spaces/SLING/pages/393773176/Alerts+On+Heap+Usage "
+
+  - alert: SaaS-Prod1(Common) WARNING Kafka heap usage is high
+    expr: sum by (instance)(avg_over_time (jvm_memory_bytes_used{area="heap",job=~"kafka_.*"}[1m]))*100/sum by (instance)(avg_over_time(jvm_memory_bytes_max{area="heap",job=~"kafka_.*"}[1m]))  >= 80
+    for: 3m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "kafka  heap usage is high ; Grafana Visualization http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=40&fullscreen&orgId=1"
+      description: "Refer this Runbook https://argoid.atlassian.net/wiki/spaces/SLING/pages/393773176/Alerts+On+Heap+Usage "
+
+  - alert: SaaS-Prod1(Common) CRITICAL Kafka service is Down
+    expr:  up{job=~"kafka_.*"} == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Endpoint  kafka service is down  ; Grafana Visualization http://10.0.0.15:3000/d/n4XGcQzWa/kafka?panelId=40&fullscreen&orgId=1"
+      description: " Refer this Runbook https://argoid.atlassian.net/wiki/spaces/SLING/pages/352354332/Alert+On+Kafka+Service"

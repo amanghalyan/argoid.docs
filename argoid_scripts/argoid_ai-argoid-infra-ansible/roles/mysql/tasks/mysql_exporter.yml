@@ -1,0 +1,134 @@
+- name: Create Mysql Exporter user
+  user: name=mysql_exporter state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_mysql_exporter
+
+- name: Create Mysql Exporter group
+  group: name=mysql_exporter state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_mysql_exporter 
+
+- name: Create Mysql Exporter Directories
+  file:
+    path: "{{ mysql_exporter_root_dir }}"
+    state: directory
+    owner: mysql_exporter
+    group: mysql_exporter 
+    mode: 0755
+  tags:
+  - setup_node
+  - setup_mysql_exporter
+  - cluster_setup
+
+- name: Download mysql_exporter using get_url
+  get_url:
+     dest: "/tmp/"
+     url: "{{ mysql_exporter_source_url }}"
+     mode: 0755
+     group: mysql_exporter
+     owner: mysql_exporter
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_mysql_exporter
+    
+- name: Extract archive
+  unarchive:
+      src: /tmp/{{ mysql_exporter_version }}.tar.gz
+      dest: "{{ mysql_exporter_root_dir }}"
+      remote_src: yes
+      creates: "{{ mysql_exporter_root_dir }}/bin"
+      owner: mysql_exporter
+      group: mysql_exporter
+      mode: 0775
+      extra_opts: [--strip-components=1]
+  tags:
+    - setup_mysql_exporter
+    - setup_node
+    - cluster_setup
+
+- name: Check /etc/mysql_exporter directory
+  stat:
+     path: /etc/mysql_exporter
+  register: etc_mysql_exporter_dir
+  tags:
+    - setup_mysql_exporter
+    - setup_node
+    - cluster_setup
+
+
+- name: Ansible Create directory if not exists
+  file:
+     path: /etc/mysql_exporter
+     state: directory
+     mode: 0755
+     group: mysql_exporter
+     owner: mysql_exporter
+  when: etc_mysql_exporter_dir.stat.exists == false
+  tags:
+    - setup_mysql_exporter
+    - setup_node
+    - cluster_setup
+ 
+- name: Copy mysql_exporter.cnf
+  template:
+     src: files/mysql_exporter.cnf
+     dest: /etc/mysql_exporter/mysql_exporter.cnf
+     owner: mysql_exporter
+     group: mysql_exporter
+     mode: '0644'
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_mysql_exporter
+    - setup_mysql_exporter
+
+- name: Copy mysql_exporter.service
+  template:
+     src: files/mysql_exporter.service
+     dest: /etc/systemd/system/mysql_exporter.service
+     #remote_src: yes
+     owner: mysql_exporter
+     group: mysql_exporter
+     mode: '0644'
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_mysql_exporter
+    - setup_mysql_exporter
+
+- name: Check if mysql_exporter_port is free
+  shell: lsof -i:{{ mysql_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: mysql_exporter_status
+  tags:
+    - check_mysql_exporter
+    - check
+    - setup_node
+    - cluster_setup
+
+- name: Start mysql_exporter
+  service:
+    name: mysql_exporter
+    state: started
+    daemon_reload: yes
+  tags:
+  - start
+  - start_mysql_exporter
+  - setup_node
+  - cluster_setup
+
+- name: Stop mysql_exporter
+  service:
+    name: mysql_exporter
+    state: stopped
+  tags:
+  - stop
+  - stop_mysql_exporter

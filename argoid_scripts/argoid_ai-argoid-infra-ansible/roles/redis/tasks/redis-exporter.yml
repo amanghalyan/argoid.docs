@@ -1,0 +1,45 @@
+---
+- name: Check if Redis-exporter port is free
+  shell: lsof -i:{{ redis_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: redis_exporter_status
+  tags:
+    - check_redis_exporter
+    - check
+    - setup_redis
+    - cluster_setup
+
+
+- name: Start Redis-Exporter container
+  docker_container:
+    name: "{{ redis_exporter_container_name }}"
+    image: "{{ redis_exporter_docker_image }}"
+    state: started
+    ports:
+      - "{{ redis_exporter_port }}:9121"
+    env:
+      REDIS_ADDR: "{{ redis_data_source_name }}"
+      REDIS_PASSWORD: "{{ redis_password|quote }}"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: redis_exporter_status.rc == 1
+  tags:
+    - start_redis_exporter
+    - start
+    - setup_redis
+    - cluster_setup
+
+- name: Stop Redis-Exporter container
+  docker_container:
+    name: "{{ redis_exporter_container_name }}"
+    image: "{{ redis_exporter_docker_image }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_redis_exporter
+    - stop
+    - never

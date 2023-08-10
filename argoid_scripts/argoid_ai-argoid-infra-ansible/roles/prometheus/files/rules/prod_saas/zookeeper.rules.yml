@@ -1,0 +1,28 @@
+groups:
+- name: zookeeper.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Zookeeper host 10.0.0.5  is down
+    expr:  zk_up{zk_host="10.0.0.5:2181"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Zookeeper is down"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Zookeeper host 10.0.0.6  is down
+    expr:  zk_up{zk_host="10.0.0.6:2181"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Zookeeper is down"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Zookeeper host 10.0.0.7  is down
+    expr:  zk_up{zk_host="10.0.0.7:2181"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Zookeeper is down"

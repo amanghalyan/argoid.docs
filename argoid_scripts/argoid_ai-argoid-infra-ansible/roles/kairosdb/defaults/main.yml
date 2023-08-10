@@ -1,0 +1,6 @@
+---
+# defaults file for kairosdb
+kairosdb_source_url: http://{{argoid_repo}}/kairosdb/kairosdb-1.2.2-1.rpm
+kairosdb_port: 8081
+package_upgrade: no
+force: yes

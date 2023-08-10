@@ -1,0 +1,52 @@
+- name: Create node_exporter user
+  user: name=node_exporter state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_node_exporter
+
+- name: Create node_exporter group
+  group: name=node_exporter state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_node_exporter 
+
+- name: Create node_exporter Directories
+  file:
+    path: "{{ node_exporter_dir }}"
+    state: directory
+    owner: node_exporter
+    group: node_exporter 
+    mode: 0755
+  tags:
+    - setup_node_exporter
+    - cluster_setup
+    - setup_node
+
+- name: Download node_exporter using get_url
+  get_url:
+     dest: "/tmp/"
+     url: "{{ node_exporter_source_url }}"
+     mode: 0755
+     group: node_exporter
+     owner: node_exporter
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_node_exporter
+    
+- name: Extract archive
+  unarchive:
+      src: /tmp/{{ node_exporter_version }}.tar.gz
+      dest: "{{node_exporter_dir}}"
+      remote_src: yes
+      creates: "{{node_exporter_dir}}/bin"
+      owner: node_exporter
+      group: node_exporter
+      mode: 0775
+      extra_opts: [--strip-components=1]
+  tags:
+    - setup_node_exporter
+    - setup_node
+    - cluster_setup

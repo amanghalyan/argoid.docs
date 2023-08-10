@@ -1,0 +1,7 @@
+  - name: Installing cassandra
+    yum:
+      name: cassandra.noarch
+      state: present
+    tags:
+    - setup_node
+    - setup_cassandra

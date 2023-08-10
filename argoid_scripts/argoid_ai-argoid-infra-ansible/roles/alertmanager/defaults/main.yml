@@ -1,0 +1,15 @@
+---
+alertmanager_mount_data_dir: "/opt/alertmanager"
+alertmanager_port: 9093
+alertmanager_container_name: "alertmanager"
+alertmanager_docker_image: "prom/alertmanager:v0.21.0"
+alertmanager_src_vol: "{{alertmanager_mount_data_dir}}/alertmanager.yml"
+alertmanager_dest_vol: "/alertmanager/alertmanager.yml"
+alertmanager_receiver_mail: "alerts-saas-stage1@argoid.com"
+alert_recievers: "alerts-saas-prod1"
+smtp_auth_username: "devops-user1@argoid.com"
+smtp_auth_password: "DevOps@2020"
+smtp_smarthost: 'smtp.gmail.com:587'
+group_wait: "45s"
+group_interval: "20m"
+repeat_interval: "20m"

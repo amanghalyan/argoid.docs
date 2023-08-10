@@ -1,0 +1,23 @@
+---
+- name: Create grafana group
+  group: name=grafana state=present
+  tags:
+    - setup_node
+    - setup_grafana
+
+- name: Create grafana user
+  user: name=grafana state=present group=grafana
+  tags:
+    - setup_node
+    - setup_grafana
+
+- name: Create grafana data directory
+  file:
+    path: "{{ grafana_mount_data_dir }}"
+    state: directory
+    owner: grafana
+    group: grafana
+    mode: 0755
+  tags:
+  - setup_node
+  - setup_grafana

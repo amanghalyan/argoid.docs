@@ -1,0 +1,55 @@
+- name: Make Namenode to enter SAFEMODE
+  command: hdfs dfsadmin -safemode enter 
+  become: true
+  become_user: hdfs
+  register: namenode_safemode_status
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - stop_hdfs
+
+
+- name: Find Active and Standby Nodes
+  uri:
+    url: "http://{{ansible_default_ipv4.address}}:50070/jmx?qry=Hadoop:service=NameNode,name=NameNodeStatus"
+    return_content: yes
+  register: standby_namenode_status
+  ignore_errors: yes
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - stop_hdfs
+
+- name: Stop Standby ZKFC
+  command: /etc/init.d/hadoop-hdfs-zkfc stop
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" and 'standby' in standby_namenode_status.content
+  tags:
+  - stop_hdfs
+
+- name: Stop Active ZKFC
+  command: /etc/init.d/hadoop-hdfs-zkfc stop
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" and 'active' in standby_namenode_status.content
+  tags:
+  - stop_hdfs
+
+- name: Stop Standby Namenode
+  command: /etc/init.d/hadoop-hdfs-namenode stop
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" and 'standby' in standby_namenode_status.content
+  tags:
+  - stop_hdfs
+
+- name: Stop Active Namenode
+  command: /etc/init.d/hadoop-hdfs-namenode stop
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" and 'active' in standby_namenode_status.content
+  tags:
+  - stop_hdfs
+
+- name: Stop Journalnodes
+  command: /etc/init.d/hadoop-hdfs-journalnode stop
+  when: inventory_hostname in "{{ groups.hdfs_journalnode }}"
+  tags:
+  - stop_hdfs
+
+- name: Stop Datanodes
+  command: /etc/init.d/hadoop-hdfs-datanode stop
+  when: inventory_hostname in "{{ groups.hdfs_datanode }}"
+  tags:
+  - stop_hdfs

@@ -1,0 +1,28 @@
+- name: Copy kafka server.properties file
+  template:
+      src: files/server.properties
+      dest: /etc/kafka/conf/server.properties
+      owner: kafka
+      group: kafka 
+      mode: 0644
+      force: yes
+  tags:
+    - setup_node
+    - setup_kafka
+    - configure_kafka
+    - cluster_setup
+
+- name: Copy /etc/default kafka-server  file
+  template:
+      src: files/kafka-server 
+      dest: /etc/default/kafka-server  
+      owner: root 
+      group: root  
+      mode: 0644 
+      force: yes
+  tags:
+    - enable_jmx
+    - setup_node
+    - setup_kafka
+    - configure_kafka
+    - cluster_setup

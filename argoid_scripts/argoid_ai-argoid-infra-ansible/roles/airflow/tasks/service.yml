@@ -1,0 +1,99 @@
+  - name: Check if airflow_webserver is running
+    shell: lsof -i:{{ airflow_webserver_port }} -t
+    args:
+      executable: /bin/bash
+    ignore_errors: yes
+    changed_when: false
+    register: service_airflow_status
+    tags:
+      - check
+      - start
+      - check_airflow
+      - start_airflow
+      - cluster_setup
+
+  - name: systemctl daemon_reload 
+    systemd:
+      daemon_reload: yes
+    tags:
+      - check
+      - start
+
+
+  - name: Start airflow-webserver
+    systemd:
+      name: airflow-webserver
+      state: started
+    when: service_airflow_status.rc == 1
+    tags:
+      - start
+      - start_airflow
+      - cluster_setup
+
+
+  - name: Start airflow-scheduler
+    systemd:
+      name: airflow-scheduler
+      state: started
+    tags:
+      - start
+      - start_airflow
+      - cluster_setup
+
+
+  - name: stop airflow-webserver
+    systemd:
+      name: airflow-webserver
+      state: stopped
+    tags:
+      - stop_airflow
+      - stop
+      - never
+
+  - name: Stop airflow-scheduler
+    systemd:
+      name: airflow-scheduler
+      state: stopped 
+    tags:
+      - stop
+      - stop_airflow
+      - never
+
+  - name: Wait for the Airflow Webserver "{{ groups.airflow[0] }}" to come online
+    wait_for:
+      host: '{{ groups.airflow[0] }}'
+      port: '{{airflow_webserver_port}}'
+      delay: 5
+    when: inventory_hostname in "{{ groups.airflow }}"
+    tags:
+    - start
+    - start_airflow
+    - setup_airflow
+    - cluster_setup
+
+
+  - name: Create airflow web user
+    become_user: airflow
+    command:
+      argv:
+        - "{{ python_bin_path}}"
+        - "{{ python_bin_path_airflow }}"
+        -  users
+        -  create
+        -  --username
+        -  "{{ airflow_web_user_id }}"
+        -  --firstname
+        -  "{{ airflow_web_user_first_name }}"
+        -  --lastname
+        -  "{{ airflow_web_user_last_name }}"
+        -  --password
+        - "{{ airflow_web_user_password }}"
+        -  --role
+        -  "{{ airflow_web_user_role }}"
+        -  --email
+        - "{{ airflow_web_user_email }}"
+    when: inventory_hostname in "{{ groups.airflow }}"
+    tags:
+       - create_airfow_web_user
+       - setup_airflow
+       - cluster_setup

@@ -1,0 +1,28 @@
+---
+- name: Create directories to store localized files 
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: yarn
+    group: hdfs
+    mode: 0777
+  with_items: "{{ yarn_nodemanager_local_dirs_path }}"
+  when:
+    - inventory_hostname in  "{{ groups.yarn_nodemanager }}"
+  tags:
+  - setup_nodemanager
+  - setup_yarn
+
+- name: Create nodemanager container log directory
+  file:
+    path: "{{ yarn_nodemanager_log_dirs_path  }}"
+    state: directory
+    owner: yarn
+    group: hdfs
+    mode: 0777
+  when:
+    - yarn_enable_log_aggregation == True
+    - inventory_hostname in  "{{ groups.yarn_nodemanager }}"
+  tags:
+  - setup_nodemanager
+  - setup_yarn

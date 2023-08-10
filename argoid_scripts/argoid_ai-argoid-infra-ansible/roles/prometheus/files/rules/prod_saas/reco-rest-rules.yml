@@ -1,0 +1,56 @@
+groups:
+- name: reco.rules
+  rules:
+  - alert: SaaS-Prod1(RR) CRITICAL Reco-Rest service is down in 10.0.0.21
+    expr:  up{job="reco_rest_100021"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest service is down"
+
+  - alert: SaaS-Prod1(RR) CRITICAL Reco-Rest service is down in 10.0.0.25
+    expr:  up{job="reco_rest_100025"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest Stage service is down"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL Reco-Rest service is down in 10.0.0.49
+    expr:  up{job="reco_rest_100049"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest SaaS-Prod1(AZ) service is down"
+
+  - alert: SaaS-Prod1(AZ) CRITICAL Reco-Rest service is down in 10.0.0.50
+    expr:  up{job="reco_rest_100050"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest SaaS-Prod1(AZ) service is down"
+
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL Reco-Rest service is down in 10.0.0.54
+    expr:  up{job="reco_rest_100054"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest SaaS-Prod1(Fun2) service is down"
+
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL Reco-Rest service is down in 10.0.0.55
+    expr:  up{job="reco_rest_100055"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-Rest SaaS-Prod1(Fun2) service is down"
+
+
+
+

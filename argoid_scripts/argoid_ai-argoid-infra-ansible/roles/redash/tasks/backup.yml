@@ -1,0 +1,89 @@
+---
+- name: Copy Redash Backup 
+  template:
+    src: files/redash_bkupcron.sh
+    dest: /opt/redash_backup_scripts
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+- name: Copy Logrotate for backups
+  template:
+    src: files/logrotate_redash.sh
+    dest: /opt/redash_backup_scripts
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+
+- name: Creating Cron for daily running 
+  cron:
+    name: "redash scripts"
+    user: root
+    minute: "30"
+    hour: "11"
+    job: "/opt/redash_backup_scripts/redash_bkupcron.sh"
+    cron_file: redash_backup_cron
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+- name: Add azure variable to a file under /etc/cron.d
+  cronvar:
+    name: AZURE_STORAGE_KEY
+    value: '"{{ az_storage_key }}"'
+    user: root
+    cron_file: redash_backup_cron
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+- name: Add azure variable to a file under /etc/cron.d
+  cronvar:
+    name: AZURE_STORAGE_AUTH_MODE
+    value: '"{{ az_auth_mode }}"'
+    user: root
+    cron_file: redash_backup_cron
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+- name: Add azure variable to a file under /etc/cron.d
+  cronvar:
+    name: AZURE_STORAGE_ACCOUNT
+    value: "{{ az_storage_account }}"
+    user: root
+    cron_file: redash_backup_cron
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup
+
+- name: Add azure variable to a file under /etc/cron.d
+  cronvar:
+    name: AZURE_STORAGE_CONNECTION_STRING
+    value: '"{{ az_storage_string }}"'
+    user: root
+    cron_file: redash_backup_cron
+  tags:
+  - setup_redash
+  - setup_node
+  - backup_redashdb
+  - cluster_setup

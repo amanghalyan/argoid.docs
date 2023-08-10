@@ -1,0 +1,10 @@
+---
+# defaults file for kafka
+kafka_data_dir: /data/1/kafka
+kafka_port: 9092
+kafka_jmx_port: 39321
+kafka_heap_size: 1G
+socket_send_buffer_bytes: 1024000
+socket_receive_buffer_bytes: 1024000
+socket_request_max_bytes: 10248500
+log_retention_hours: 168

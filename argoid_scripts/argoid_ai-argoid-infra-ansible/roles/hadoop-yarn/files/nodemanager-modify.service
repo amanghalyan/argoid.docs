@@ -1,0 +1,12 @@
+[Unit]
+Description=node-manager-modify
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Type=simple
+ExecStart=/bin/python /opt/yarn-nodemanager-resource-modification/modify-yarn-site.py
+
+[Install]
+WantedBy=multi-user.target

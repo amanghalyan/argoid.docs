@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Kairosdb
+After=network.target
+
+[Service]
+Type=forking
+User=kairosdb
+Group=kairosdb
+Environment='KAIROS_PID_FILE=/opt/kairosdb/kairosdb.pid'
+ExecStart=/opt/kairosdb/bin/kairosdb.sh  start
+ExecStop=/opt/kairosdb/bin/kairosdb.sh  stop
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,24 @@
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - {{ groups.alertmanager[0] }}:{{ alertmanager_port }}
+
+rule_files:
+{% for filepath in lookup('fileglob', '../files/rules/' + prometheus_project + '/*', wantlist=True) %}
+   - "{{ prometheus_config_dir }}/rules/{{ filepath | basename }}"
+{% endfor %}
+
+scrape_configs:
+{% for host in groups.prometheus_node %}
+   - job_name: {{ hostvars[host].prometheus_job_name_prefix }}{{ host | replace('.','_') }}
+     static_configs:
+      - targets: ['{{ host }}:{{ hostvars[host].prometheus_scrape_port }}']
+     {% if hostvars[host].prometheus_job_custom_config is defined %}{{ hostvars[host].prometheus_job_custom_config | to_nice_yaml(indent=2) | trim | indent(5) | replace("\'","") }}
+     {% endif %}
+
+{% endfor %}

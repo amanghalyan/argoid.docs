@@ -1,0 +1,21 @@
+groups:
+- name: hive.rules
+  rules:
+  - alert: SaaS-Prod1(RR) WARNING Hive-Server2 is down on 10.0.0.12
+    expr:  up{job="hive_server2_100012"} == 0
+    for: 1m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Hive-Server2  is down on  10.0.0.12 "
+      description: " Refer this Runbook , https:// "
+  
+  - alert: SaaS-Prod1(RR) WARNING Hive-Metastore is down on 10.0.0.12
+    expr:  up{job="hive_metastore_100012"} == 0
+    for: 1m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Hive-Metastore  is down on  10.0.0.12 "
+      description: " Refer this Runbook , https:// "
+

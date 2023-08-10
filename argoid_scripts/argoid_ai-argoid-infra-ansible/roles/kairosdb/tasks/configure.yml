@@ -1,0 +1,34 @@
+  - name: kairosdb config file
+    template: 
+        src: templates/kairosdb.properties
+        dest: /opt/kairosdb/conf/kairosdb.properties
+       # dest: /tmp/kairosdb.properties
+        force: "{{force}}" 
+        owner: kairosdb
+        group: kairosdb
+        mode: 0775
+    tags:
+      - setup_node
+      - setup_kairosdb
+      - setup_conf
+
+  - name: install lsof
+    yum:
+      name: lsof
+      state: present
+    tags:
+      - setup_node
+      - setup_kairosdb
+      - setup_conf
+
+  - name: install systemd kairosdb
+    template:
+      src: templates/kairosdb.service
+      dest: /etc/systemd/system/kairosdb.service
+      mode: 0644
+      backup: yes
+    tags:
+      - setup_node
+      - setup_kairosdb
+      - setup_conf
+

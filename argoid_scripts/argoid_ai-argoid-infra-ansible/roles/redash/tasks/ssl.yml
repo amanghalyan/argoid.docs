@@ -1,0 +1,74 @@
+---
+- name: Install a list of packages
+  yum:
+    name:
+      - epel-release
+      - yum-utils
+      - certbot
+    state: present
+  tags:
+    - setup_node
+    - setup_redash
+    - configure_redash
+    - ssl_setup
+
+- name: Check that if certbot is already exists
+  stat:
+    path: /etc/letsencrypt/live
+  register: stat_result
+  tags:
+    - setup_node
+    - setup_redash
+    - configure_redash
+    - ssl_setup
+
+- name: copy nginx.conf file
+  template: 
+    dest: /opt/redash/nginx/nginx.conf
+    src: files/nginx.conf 
+    owner: root 
+    group: root
+    mode: 0644
+  tags: 
+    - setup_node
+    - setup_redash
+    - configure_redash
+    - ssl_setup
+
+- name: Modified docker-compse file
+  template:
+    dest: /opt/redash/docker-compose.yml
+    src: files/docker-compose-redash.yml
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - setup_node
+    - setup_redash
+    - configure_redash
+    - ssl_setup
+
+- name: Start Redash Containers
+  command: /usr/local/bin/docker-compose up -d
+  args:
+    chdir: /opt/redash
+  tags:
+  - start
+  - start_redash
+  - cluster_setup
+
+- name: Stop Redash Containers
+  command: /usr/local/bin/docker-compose stop
+  args:
+    chdir: /opt/redash
+  tags:
+  - stop
+  - stop_redash
+
+- name: Restart Redash Containers
+  command: /usr/local/bin/docker-compose restart
+  args:
+    chdir: /opt/redash
+  tags:
+  - restart
+  - restart_redash

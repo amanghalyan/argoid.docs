@@ -1,0 +1,13 @@
+- name: node_exporter-deamon file
+  template:
+      src: files/node_exporter.service
+      dest: /etc/systemd/system/node_exporter.service
+      force: "{{force}}"
+      owner: node_exporter
+      group: node_exporter
+      mode: 0644
+      backup: yes
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_node_exporter

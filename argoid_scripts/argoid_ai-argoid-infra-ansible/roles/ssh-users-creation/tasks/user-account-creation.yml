@@ -1,0 +1,9 @@
+---
+- name: Create SSH User accounts
+  user:
+    name: "{{ item }}"
+  with_items: "{{ ssh_users }}"
+  tags:
+    - create_ssh_users_in_gw
+    - create_ssh_users
+    - never

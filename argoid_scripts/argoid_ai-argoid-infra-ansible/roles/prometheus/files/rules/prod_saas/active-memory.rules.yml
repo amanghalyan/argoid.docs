@@ -1,0 +1,28 @@
+groups:
+- name: Active.memory.rules
+  rules:
+  - alert: SaaS-Prod1(Common) WARNING  High Active Memory Usage
+    expr: (1 - ((avg_over_time(node_memory_MemFree_bytes{job=~"node_10005|node_10006|node_10007|node_10008|node_10009|node_100010|node_100012|node_100013|node_100014|node_100015|node_100017|node_100019|node_100022|node_100026|node_100031"}[1m]) + avg_over_time(node_memory_Cached_bytes[1m]) + avg_over_time(node_memory_Buffers_bytes[1m])) / avg_over_time(node_memory_MemTotal_bytes[1m]))) * 100  >= 90
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) WARNING  High Active Memory Usage
+    expr: (1 - ((avg_over_time(node_memory_MemFree_bytes{job=~"node_100020|node_100021|node_100023|node_100024|node_100025"}[1m]) + avg_over_time(node_memory_Cached_bytes[1m]) + avg_over_time(node_memory_Buffers_bytes[1m])) / avg_over_time(node_memory_MemTotal_bytes[1m]))) * 100  >= 90
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?orgId=1"
+
+
+  - alert: SaaS-Prod1(ES) WARNING  High Active Memory Usage
+    expr: (1 - ((avg_over_time(node_memory_MemFree_bytes{job=~"node_100027|node_100028|node_100029|node_100030"}[1m]) + avg_over_time(node_memory_Cached_bytes[1m]) + avg_over_time(node_memory_Buffers_bytes[1m])) / avg_over_time(node_memory_MemTotal_bytes[1m]))) * 100  >= 90
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/000000001/system-metrics?orgId=1"

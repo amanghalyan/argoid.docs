@@ -1,0 +1,10 @@
+---
+- hosts: mysql
+  remote_user: argoid
+  gather_facts: true
+  become: yes
+  vars:
+    ansible_ssh_private_key_file: "roles/ansible-ssh-user/files/id_rsa"
+  roles:
+    - roles/mysql
+    

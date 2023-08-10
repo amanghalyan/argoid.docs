@@ -1,0 +1,4 @@
+---
+pip_bin_location: /usr/bin/pip
+pip_download_url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+python2_bin_path: /usr/bin/python  

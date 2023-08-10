@@ -1,0 +1,27 @@
+- name: Creating directory to keep jmx file
+  file:
+    path: "{{jmx_exporter_dir}}"
+    state: directory
+    mode: 0775
+    recurse: yes
+  tags:
+  - setup_node
+  - cluster_setup
+  - enable_jmx_exporter
+
+- name: Download jmx_prometheus jar
+  get_url:
+    url: "{{jmx_exporter_prometheus_download_url}}"
+    dest: "{{jmx_exporter_dir}}"
+    mode: 0777
+  tags:
+  - setup_node
+  - cluster_setup
+  - enable_jmx_exporter
+
+- name: Copy jmx config  file
+  template: src=files/config.yml  dest="{{jmx_exporter_dir}}"  owner=root group=root  mode=0644 force=yes
+  tags:
+  - setup_node
+  - cluster_setup
+  - enable_jmx_exporter

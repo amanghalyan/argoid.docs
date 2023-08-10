@@ -1,0 +1,39 @@
+---
+- name: Add SSH User local's Authorized keys in Gateway
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', 'files/'+ item + '.local.key.pub') }}"
+  with_items: "{{ ssh_users }}"
+  when:
+    - create_ssh_private_keys is  defined and create_ssh_private_keys == true
+  tags:
+    - create_ssh_users_in_gw
+    - never
+
+- name: Upload SSH Private-Key to SSH Gateway Instance
+  copy:
+    src: files/{{ item }}.id_rsa
+    dest: /home/{{ item }}/.ssh/id_rsa
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0400
+  with_items: "{{ ssh_users }}"
+  when:
+    - create_ssh_private_keys is  defined and create_ssh_private_keys == true
+  tags:
+    - create_ssh_users_in_gw
+    - never
+
+- name: Allow users to have a Sudo privilege in Gateway
+  lineinfile:
+    dest: "/etc/sudoers.d/argoid"
+    state: "present"
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+    create: yes
+  with_items: "{{ ssh_superusers }}"
+  when:
+    - create_ssh_private_keys is  defined and create_ssh_private_keys == true
+    - enable_superuser_privileges == true
+  tags:
+    - create_ssh_users_in_gw
+    - never

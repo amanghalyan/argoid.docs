@@ -1,0 +1,41 @@
+- name: Check if nginx is running
+  shell: lsof -i:{{ nginx_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: nginx_status
+  tags:
+    - start
+    - start_nginx
+    - check
+    - check_nginx
+    - setup_nginx
+    - cluster_setup
+ 
+- name: Start nginx
+  service:
+    state: started
+    name: nginx
+    enabled: yes
+  tags:
+    - check_nginx
+    - start_nginx
+    - start
+    - cluster_setup
+
+- name: Stop service nginx, if started
+  service:
+    state: stopped
+    name: nginx
+  tags:
+    - stop_nginx
+    - stop
+
+- name: Restart nginx
+  service:
+    state: restarted
+    name: nginx
+    daemon_reload: yes
+  tags:
+    - restart_nginx
+    - restart

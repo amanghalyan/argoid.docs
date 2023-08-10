@@ -1,0 +1,34 @@
+---
+- name: Start Hive-Metastore
+  command:  /etc/init.d/hive-metastore start
+  when: inventory_hostname in  "{{ groups.hive_metastore }}"
+  tags:
+    - start_hive
+    - start_hive_metastore
+    - start
+
+- name: Stop Hive-Metastore
+  command:  /etc/init.d/hive-metastore stop
+  when: inventory_hostname in  "{{ groups.hive_metastore }}"
+  tags:
+    - stop
+    - stop_hive 
+    - stop_hive_server2
+    - never
+
+- name: Start Hive-Server2
+  command:  /etc/init.d/hive-server2 start
+  when: inventory_hostname in  "{{ groups.hive_metastore }}"
+  tags:
+    - start_hive
+    - start_hive_server2
+    - start
+
+- name: Stop Hive-Server2
+  command:  /etc/init.d/hive-server2 stop
+  when: inventory_hostname in  "{{ groups.hive_metastore }}"
+  tags:
+    - stop
+    - stop_hive
+    - stop_hive_server2
+    - never

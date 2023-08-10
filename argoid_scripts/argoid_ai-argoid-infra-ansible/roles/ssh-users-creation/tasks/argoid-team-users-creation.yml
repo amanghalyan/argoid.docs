@@ -1,0 +1,25 @@
+---
+- name: Add SSH Users authorized keys in all VMs excluding Gateway
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', 'files/'+ item + '.gw.key.pub') }}"
+  with_items: "{{ ssh_users }}"
+  when:
+    - create_ssh_private_keys is not defined or  create_ssh_private_keys == false
+  tags:
+    - create_ssh_users
+    - never
+
+- name: Allow users to have a Sudo privilege in all VMs excluding Gateway
+  lineinfile:
+    dest: "/etc/sudoers.d/argoid"
+    state: "present"
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+    create: yes
+  with_items: "{{ ssh_superusers }}"
+  when:
+    - create_ssh_private_keys is not defined or create_ssh_private_keys == false
+    - enable_superuser_privileges == true
+  tags:
+    - create_ssh_users
+    - never

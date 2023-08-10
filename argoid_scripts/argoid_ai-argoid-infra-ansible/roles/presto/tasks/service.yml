@@ -1,0 +1,41 @@
+  - name: Check if presto is running
+    shell: lsof -i:{{presto_port}} -t
+    args:
+      executable: /bin/bash
+    ignore_errors: yes
+    changed_when: false
+    register: service_presto_status
+    tags:
+      - check_presto
+      - cluster_setup
+      - check
+
+  - name: Start presto
+    systemd:
+      state: started
+      daemon_reload: yes
+      name: presto 
+    when: service_presto_status.rc== 1
+    tags:
+      - start_presto
+      - start
+ 
+  - name: Wait for the Presto Server "{{ groups.redash[0] }}" to come online
+    wait_for:
+      host: '{{ groups.presto[0] }}'
+      port: '{{ presto_port  }}'
+      delay: 5
+    when: inventory_hostname in "{{ groups.presto}}"
+    tags:
+      - start
+      - setup_presto
+      - cluster_setup
+
+  - name: Stop service presto, if started
+    systemd:
+      state: stopped
+      name: presto
+    tags:
+      - stop_presto
+      - stop
+      - never

@@ -1,0 +1,83 @@
+<configuration>
+{% if hdfs_ha_enabled %}
+  <property>
+     <name>dfs.nameservices</name>
+     <value>{{ hdfs_nameservices }}</value>
+  </property>
+  <property>
+   <name>dfs.ha.automatic-failover.enabled</name>
+   <value>true</value>
+ </property>
+  <property>
+    <name>dfs.ha.namenodes.{{ hdfs_nameservices }}</name>
+    <value>{% for host in groups.hdfs_namenode %}nn{{ loop.index }}{% if not loop.last %},{% endif %}{% endfor %}</value>
+  </property>
+  {% for host in groups.hdfs_namenode %}
+    <property>
+        <name>dfs.namenode.rpc-address.{{ hdfs_nameservices }}.nn{{ loop.index }}</name>
+        <value>{{ host  }}:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.{{ hdfs_nameservices }}.nn{{ loop.index }}</name>
+        <value>{{ host }}:50070</value>
+    </property>
+  {% endfor %}
+   <property>
+  <name>dfs.namenode.shared.edits.dir</name>
+  <value>qjournal://{{ groups.hdfs_journalnode | join(':8485' + ';') }}:8485/{{ hdfs_nameservices }}</value>
+</property>
+<property>
+  <name>dfs.client.failover.proxy.provider.{{ hdfs_nameservices }}</name>
+  <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+<property>
+  <name>dfs.ha.fencing.methods</name>
+  <value>shell(/usr/lib/hadoop/script.sh arg1 arg2 ...)</value>
+</property>
+<property>
+  <name>dfs.journalnode.edits.dir</name>
+  <value>{{ hdfs_dfs_journalnode_edits_dir }}</value>
+</property>
+{% endif -%}
+  <property>
+     <name>dfs.namenode.name.dir</name>
+     <value>{{ hdfs_namenode_dir }}</value>
+  </property>
+  <property>
+     <name>dfs.namenode.checkpoint.dir</name>
+     <value>{{ hdfs_namenode_dir }}</value>
+  </property>
+  <property>
+     <name>dfs.datanode.data.dir</name>
+     <value>{{ hdfs_datanode_dir_list | map('regex_replace', '^(.*)$', '\\1' ) | join(',') }}</value>
+  </property>
+<property>
+<name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+<value>false</value>
+</property>
+
+ <property>
+   <name>dfs.permissions.enabled</name>
+    <value>{{ hdfs_permission_enabled }}</value>
+  </property>
+
+ <property>
+   <name>dfs.permissions.superusergroup</name>
+   <value>supergroup</value>
+</property>
+
+
+<property>
+    <name>dfs.namenode.rpc-bind-host</name>
+      <value>0.0.0.0</value>
+  </property>
+
+<property>
+    <name>dfs.replication</name>
+    <value>{{ hdfs_dfs_replication }}</value>
+</property>
+  <property>
+    <name>dfs.datanode.du.reserved</name>
+    <value>{{ hdfs_dfs_datanode_du_reserved }}</value>
+  </property>
+</configuration>

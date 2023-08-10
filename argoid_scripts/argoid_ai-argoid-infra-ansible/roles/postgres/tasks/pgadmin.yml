@@ -1,0 +1,61 @@
+- name: Create Pgadmin data directory
+  file:
+    path: "{{ pgadmin_mount_data_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+  - setup_node
+  - setup_pgadmin
+  - cluster_setup
+  - setup_postgres
+
+- name: Check if pgadmin port is free
+  shell: lsof -i:{{ pgadmin_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: pgadmin4_status
+  tags:
+    - start_pgadmin
+    - check_pgadmin
+    - start
+    - check
+    - setup_postgres
+    - setup_pgadmin
+
+- name: Start PGAdmin container
+  docker_container:
+    name: "{{ pgadmin_container_name }}"
+    image: "{{ pgadmin_image_name}}"
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - "{{ pgadmin_mount_data_dir }}:{{ pgadmin_data_dir }}"
+    state: started
+    ports:
+      - "{{ pgadmin_port }}:80"
+    env:
+      PGADMIN_DEFAULT_EMAIL: "{{ pgadmin_default_emailid }}"
+      PGADMIN_DEFAULT_PASSWORD: "{{ pgadmin_default_password }}"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: pgadmin4_status.rc == 1
+  tags:
+    - start_pgadmin
+    - setup_postgres
+    - start
+    - setup_pgadmin
+
+- name: Stop PGAdmin container
+  docker_container:
+    name: "{{ pgadmin_container_name }}"
+    image: "{{ pgadmin_image_name }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_pgadmin
+    - stop
+    - never

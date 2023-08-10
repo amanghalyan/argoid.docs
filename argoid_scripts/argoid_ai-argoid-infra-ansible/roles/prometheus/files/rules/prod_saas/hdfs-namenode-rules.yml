@@ -1,0 +1,26 @@
+groups:
+- name: hdfs-datanode.rules
+  rules:
+  - alert: SaaS-Prod1(Common) WARNING HDFS Namenode  heap usage is high
+    expr: sum by (instance)(avg_over_time(Hadoop_NameNode_MemHeapUsedM[1m]))/ sum by (instance)(avg_over_time(Hadoop_NameNode_MemHeapMaxM[1m]))  >= 0.8
+    for: 2m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Heap Usage from NameNode  {{$labels.instance}} is high; Grafana URL http://10.0.0.21:3000/d/e6WoHpZWx/hdfs?orgId=1"
+
+  - alert: SaaS-Prod1(Common) CRITICAL HDFS Namenode heap usage is high
+    expr: sum by (instance)(avg_over_time(Hadoop_NameNode_MemHeapUsedM[1m]))/ sum by (instance)(avg_over_time(Hadoop_NameNode_MemHeapMaxM[1m]))  >= 0.9
+    for: 2m
+    labels:
+      severity: "Critical"
+    annotations:
+      summary: "Heap Usage from NameNode  {{$labels.instance}} is high; Grafana http://10.0.0.21:3000/d/e6WoHpZWx/hdfs?orgId=1"
+
+  - alert:  SaaS-Prod1(Common) CRITICAL HDFS Namenode is Down
+    expr:  up{job=~"namenode_.*"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.21:3000/d/e6WoHpZWx/hdfs?orgId=1"

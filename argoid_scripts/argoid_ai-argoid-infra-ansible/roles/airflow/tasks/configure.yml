@@ -1,0 +1,112 @@
+  - name: Updating airflow.cfg file
+    template:
+      src: templates/airflow.cfg
+      dest: "{{ airflow_dir }}/airflow.cfg"
+    tags:
+      - setup_airflow
+      - configure_airflow
+      - setup_node
+      - cluster_setup
+
+  - name: Creating Airflow DB and user 
+    become: yes
+    become_user: postgres
+    shell:  /usr/bin/psql   --host="{{ansible_default_ipv4.address}}" -c "CREATE DATABASE {{ airflow_postgres_db }}" ; /usr/bin/psql  --host="{{ansible_default_ipv4.address}}" -c "CREATE USER {{ airflow_postgres_user }} WITH PASSWORD '{{ airflow_postgres_password }}'" ;  /usr/bin/psql  --host="{{ansible_default_ipv4.address}}" -c "GRANT ALL PRIVILEGES ON DATABASE {{ airflow_postgres_db }} TO {{ airflow_postgres_user }}"
+    environment:
+        PGPASSWORD: "{{ postgres_password }}"
+    register: postgres_query_status
+    failed_when: "'already exists' not in postgres_query_status.stderr and  'CREATE DATABASE' not in postgres_query_status.stdout"
+    tags:
+      - setup_airflow
+      - configure_airflow
+      - setup_node
+      - cluster_setup
+  
+  - name: Stat for Airflow DB Initialization
+    become_user: airflow
+    shell:  /usr/bin/psql  -d "{{ airflow_postgres_db }}" --host="{{ansible_default_ipv4.address}}" -c  "select * from ab_permission limit 2 " ;
+    environment:
+        PGPASSWORD: "{{ airflow_postgres_password }}"
+    register: airflow_db_initialization_status
+    ignore_errors: True
+    tags:
+      - setup_airflow
+      - configure_airflow
+      - setup_node
+      - cluster_setup
+      - test
+
+  - name: Airflow DB Initialization
+    become_user: airflow
+    command: 
+      argv:
+        - "{{ python_bin_path}}"
+        - "{{ python_bin_path_airflow }}"
+        -  db
+        -  init 
+    when: airflow_db_initialization_status.rc != 0
+    tags:
+      - setup_airflow
+      - setup_node
+      - configure_airflow
+      - cluster_setup
+      - test
+
+  - name: Copying airflow-sysconfig service file
+    template:
+      src: templates/sysconfig_airflow
+      dest: "{{ environmentfile }}"
+    tags:
+      - setup_airflow
+      - setup_node
+      - configure_airflow
+      - cluster_setup
+
+  - name: Copying airflow-webserver service file
+    template:
+      src: templates/airflow-webserver.service
+      dest: /etc/systemd/system/airflow-webserver.service
+    tags:
+      - setup_airflow
+      - setup_node
+      - configure_airflow
+      - cluster_setup
+
+  - name: Copying  airflow-scheduler service file
+    template:
+      src: templates/airflow-scheduler.service
+      dest: /etc/systemd/system/airflow-scheduler.service
+      owner: airflow
+      group: airflow
+      mode: '755'
+    tags:
+      - setup_airflow
+      - setup_node
+      - configure_airflow
+      - cluster_setup
+
+  - name: Copying airflow-logrotation script file
+    template:
+      src: templates/logrotation.sh
+      dest: "{{airflow_dir}}/logs/logrotation.sh" 
+      owner: airflow
+      group: airflow
+      mode: '755'
+    tags:
+      - setup_airflow
+      - setup_node
+      - configure_airflow
+      - cluster_setup
+
+  - name: Creates logrotaion cronjob 
+    become_user: airflow
+    cron:
+       name: "logrotation"
+       minute: "{{cron_log_rotation_minutes_utc}}"
+       hour: "{{cron_log_rotation_hour_utc}}"
+       job: "{{airflow_dir}}/logs/logrotation.sh"
+    tags:
+      - setup_node
+      - setup_airflow
+      - configure_airflow
+      - cluster_setup

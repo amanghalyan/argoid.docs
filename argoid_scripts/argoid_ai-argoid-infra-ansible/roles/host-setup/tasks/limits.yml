@@ -1,0 +1,16 @@
+- name: Set sysctl File Limits
+  template: 
+    src: files/50-fs.conf
+    dest: /etc/sysctl.d/
+  tags:
+    - setup_node
+    - cluster_setup
+
+- name: Set Shell File Limits
+  template:
+    src: files/nofile-limits.conf
+    dest: /etc/security/limits.d
+    backup: yes
+  tags:
+    - setup_node
+    - cluster_setup

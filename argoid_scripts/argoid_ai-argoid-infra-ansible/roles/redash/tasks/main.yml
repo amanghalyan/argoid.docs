@@ -1,0 +1,9 @@
+---
+# tasks file for redash
+- import_tasks: install.yml
+- import_tasks: cadvisor.yml
+- import_tasks: backup.yml
+  when: redashdb_backup  == True
+- import_tasks: ssl.yml
+  when: ssl_enabling  == True
+- import_tasks: service.yml

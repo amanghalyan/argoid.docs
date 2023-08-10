@@ -1,0 +1,16 @@
+[Unit]
+Description=zeppelin
+After=network.target
+
+[Service]
+Type=forking
+User=zeppelin
+Group=zeppelin
+WorkingDirectory=/opt/zeppelin
+ExecStart=/opt/zeppelin/bin/zeppelin-daemon.sh start
+ExecStop=/opt/zeppelin/bin/zeppelin-daemon.sh stop
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

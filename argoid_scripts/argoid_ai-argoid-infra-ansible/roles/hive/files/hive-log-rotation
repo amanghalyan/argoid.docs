@@ -1,0 +1,5 @@
+/var/log/hive/hive-metastore.out {
+    copytruncate
+    daily
+    rotate 4
+}

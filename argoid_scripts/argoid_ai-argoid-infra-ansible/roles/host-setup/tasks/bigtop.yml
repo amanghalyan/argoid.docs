@@ -1,0 +1,21 @@
+- name: install yum utils
+  yum:
+    name: yum-utils
+    state: present
+  tags:
+    - setup_node
+    - cluster_setup
+
+- name: Add Bigtop Repository
+  yum_repository:
+    name: "{{repo_name}}"
+    description: Bigtop Repo
+    file: bigtop
+    baseurl: "{{bigtop_url}}"
+    enabled: yes
+    gpgcheck: no
+  tags:
+    - setup_node
+    - cluster_setup
+
+

@@ -1,0 +1,44 @@
+- name: Check if Zookeeper  is running
+  shell: lsof -i:{{ zookeeper_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_zk_status
+  tags:
+  - check
+  - start
+  - check_zookeeper
+  - start_zookeeper
+  - setup_zookeeper
+  - cluster_setup
+
+
+- name: Start Zookeeper service
+  command: sudo /etc/init.d/zookeeper-server start
+  when: service_zk_status.rc == 1
+  tags:
+  - start
+  - start_zookeeper
+  - setup_zookeeper
+  - cluster_setup
+
+- name: Validate whether zookeeper service is running or not 
+  shell: netstat -plnt | grep $(ps -ef | grep zookeeper.server.quorum.QuorumPeerMain | grep -v "grep" | awk '{print $2}')
+  args:
+    executable: /bin/bash
+  register: zookeeper_port_status
+  retries: 5
+  delay: 3
+  until: zookeeper_port_status.stdout.find('{{zookeeper_port}}') != -1 
+  tags:
+  - validate
+  - validate_zookeeeper
+  - setup_zookeeper
+  - cluster_setup
+
+- name: Stop Zookeeper service
+  command: sudo /etc/init.d/zookeeper-server stop
+  tags:
+  - stop_zookeeper
+  - stop

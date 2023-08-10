@@ -1,0 +1,32 @@
+[Unit]
+ Description=Mysql_Exporter
+ Wants=network.target
+ After=network.target
+ User=mysql_exporter
+ Group=mysql_exporter
+
+ [Service]
+ Type=simple
+ Restart=always
+ ExecStart=/opt/mysql_exporter/mysqld_exporter \
+ --config.my-cnf /etc/mysql_exporter/mysql_exporter.cnf \
+ --collect.global_status \
+ --collect.info_schema.innodb_metrics \
+ --collect.auto_increment.columns \
+ --collect.info_schema.processlist \
+ --collect.binlog_size \
+ --collect.info_schema.tablestats \
+ --collect.global_variables \
+ --collect.info_schema.query_response_time \
+ --collect.info_schema.userstats \
+ --collect.info_schema.tables \
+ --collect.perf_schema.tablelocks \
+ --collect.perf_schema.file_events \
+ --collect.perf_schema.eventswaits \
+ --collect.perf_schema.indexiowaits \
+ --collect.perf_schema.tableiowaits \
+ --collect.slave_status \
+ --web.listen-address={{ansible_default_ipv4.address}}:{{mysql_exporter_port}}
+
+ [Install]
+ WantedBy=multi-user.target

@@ -1,0 +1,57 @@
+---
+- name: Initialze Redash Containers
+  command: /usr/local/bin/docker-compose run --rm server create_db
+  args:
+    chdir: /opt/redash
+  tags:
+  - start_redash
+  - cluster_setup
+
+- name: Start Redash Containers
+  command: /usr/local/bin/docker-compose up -d 
+  args:
+    chdir: /opt/redash
+  tags:
+  - start
+  - start_redash
+  - cluster_setup
+
+
+- name: Stop Redash Containers
+  command: /usr/local/bin/docker-compose stop
+  args:
+    chdir: /opt/redash
+  tags:
+  - stop
+  - stop_redash
+  - never
+
+- name: Restart Redash Containers
+  command: /usr/local/bin/docker-compose restart
+  args:
+    chdir: /opt/redash
+  tags:
+  - restart
+  - restart_redash
+  - never
+
+- name: Wait for the Redash Server "{{ groups.redash[0] }}" to come online
+  wait_for:
+    host: '{{ groups.redash[0] }}'
+    port: '{{ redash_http_port }}'
+    delay: 5
+  when: inventory_hostname in "{{ groups.redash}}"
+  tags:
+  - start
+  - start_redash
+  - setup_redash
+  - cluster_setup
+
+- name: Create Redash login user
+  command: /usr/bin/docker exec -it redash_server_1 /app/manage.py users create_root {{ redash_admin_username }} {{ redash_admin_mail }}  --password {{redash_admin_password}} --org {{redash_organization_name }}
+  register: register_redash_admin_creation
+  failed_when: "register_redash_admin_creation.rc != 0 and 'is already exists' not in register_redash_admin_creation.stdout"
+  tags:
+  - setup_redash
+  - setup_node
+  - cluster_setup 

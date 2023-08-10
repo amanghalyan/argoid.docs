@@ -1,0 +1,44 @@
+---
+- name: Check if Alertmanager port is free
+  shell: lsof -i:{{ alertmanager_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: alertmanager_exporter_status
+  tags:
+    - start_alertmanager
+    - check_alertmanager
+    - start
+    - check
+
+
+- name: Start Alertmanager container
+  docker_container:
+    name: "{{ alertmanager_container_name }}"
+    image: "{{ alertmanager_docker_image }}"
+    state: started
+    ports:
+      - "{{ alertmanager_port }}:{{ alertmanager_port }}"
+    volumes:
+      - "{{ alertmanager_src_vol }}:{{ alertmanager_dest_vol }}"
+    command:  "--config.file {{ alertmanager_dest_vol }}"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: alertmanager_exporter_status.rc == 1
+  tags:
+    - start_alertmanager
+    - check_alertmanager
+    - start
+
+- name: Stop Alertmanager container
+  docker_container:
+    name: "{{ alertmanager_container_name }}"
+    image: "{{ alertmanager_docker_image }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_alertmanager
+    - stop
+    - never

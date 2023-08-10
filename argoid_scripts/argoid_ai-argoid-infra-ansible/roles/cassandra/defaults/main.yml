@@ -1,0 +1,11 @@
+---
+# defaults file for cassandra
+cassandra_user: argoid
+cassandra_source_url: cassandra.noarch
+cassandra_data_dir: /data/1/cassandra
+cassandra_cluster: sample
+cassandra_port: 9042
+force: yes
+cassandra_jmx_port: 13305
+cassandra_max_heap_size: 2G
+cassandra_heap_newsize: 200M 

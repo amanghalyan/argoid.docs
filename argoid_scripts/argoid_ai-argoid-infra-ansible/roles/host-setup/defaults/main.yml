@@ -1,0 +1,6 @@
+---
+# defaults file for host-setup
+max_file_open: 1000000
+file_limit_soft: 62144
+file_limit_hard: 62144
+

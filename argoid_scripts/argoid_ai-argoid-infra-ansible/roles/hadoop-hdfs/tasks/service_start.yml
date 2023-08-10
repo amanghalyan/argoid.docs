@@ -1,0 +1,112 @@
+- name: Check if journalnode is running
+  shell: lsof -i:8485 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_journalnode_status
+  when: 
+  - inventory_hostname in "{{ groups.hdfs_journalnode }}"
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - check_journalnode                                         
+  - check
+
+- name: Start Journalnodes
+  command: /etc/init.d/hadoop-hdfs-journalnode start
+  when: 
+  - inventory_hostname in "{{ groups.hdfs_journalnode }}" 
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - start_journalnode
+  - start
+
+- name: Check if namenode is running
+  shell: lsof -i:50070 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_namenode_status
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - check_namenode
+  - start_namenode
+  - check
+
+- name: Start Namenodes
+  command: /etc/init.d/hadoop-hdfs-namenode start
+  when: inventory_hostname in "{{ groups.hdfs_namenode }}" and service_namenode_status.rc  == 1
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - check_namenode
+  - start_namenode
+  - start
+
+- name: Check if zkfc is running
+  shell: lsof -i:8019 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_zkfc_status
+  when: 
+  - inventory_hostname in "{{ groups.hdfs_namenode }}"
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - check_zkfc
+  - check
+
+- name: Start Active ZKFC 
+  command: /etc/init.d/hadoop-hdfs-zkfc start
+  when: 
+  - inventory_hostname == "{{ groups.hdfs_namenode[0] }}" 
+  - "{{ groups['hdfs_namenode'] | length }} > 1"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - start_zkfc
+  - start
+
+- name: Start Standby ZKFC
+  command: /etc/init.d/hadoop-hdfs-zkfc start
+  when:
+  - "{{ groups['hdfs_namenode'] | length }} > 1" 
+  - inventory_hostname == "{{ groups.hdfs_namenode[1] }}"
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - start_zkfc
+  - start
+
+
+- name: Check if datanode is running
+  shell: lsof -i:50010 -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_datanode_status
+  when: inventory_hostname in "{{ groups.hdfs_datanode }}"
+  tags:
+  - setup_hdfs
+  - check_datanode
+  - check
+
+- name: Start Datanodes
+  command: /etc/init.d/hadoop-hdfs-datanode start
+  when: inventory_hostname in "{{ groups.hdfs_datanode }}" and  service_datanode_status.rc  == 1
+  tags:
+  - setup_hdfs
+  - start_hdfs
+  - start_datanode
+  - start

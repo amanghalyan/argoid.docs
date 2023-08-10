@@ -1,0 +1,47 @@
+---
+- name: Copy zoo.cfg configuration file
+  template: 
+    dest: /etc/zookeeper/conf/zoo.cfg 
+    src: templates/zoo.cfg 
+    owner: zookeeper
+    group: zookeeper 
+    mode: 0644
+  tags:
+  - setup_zookeeper
+  - cluster_setup
+  - zookeeper_config_update
+
+- name: Copy java.env  configuration file
+  template:
+    dest: /etc/zookeeper/conf/java.env
+    src: templates/java.env
+    owner: zookeeper
+    group: zookeeper
+    mode: 0744
+  tags:
+  - setup_zookeeper
+  - cluster_setup
+  - zookeeper_config_update
+
+- name: Copy log4j configuration file
+  template:
+    dest: /etc/zookeeper/conf/log4j.properties
+    src: templates/log4j.properties
+    owner: zookeeper
+    group: zookeeper
+    mode: 0744
+  tags:
+  - setup_zookeeper
+  - cluster_setup
+  - zookeeper_config_update
+
+- name: Copy Zookeeper myid template file
+  template: 
+    dest: /var/lib/zookeeper/myid 
+    src: templates/myid
+    owner: zookeeper
+    group: zookeeper
+    mode: 0644
+  tags:
+  - setup_zookeeper
+  - cluster_setup

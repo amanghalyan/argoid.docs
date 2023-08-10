@@ -1,0 +1,2 @@
+export KAFKA_HEAP_OPTS="-Xmx{{kafka_heap_size}} -Xms{{kafka_heap_size}}"
+export KAFKA_OPTS="-javaagent:{{jmx_exporter_java_agent_file}}={{kafka_jmx_port}}:{{jmx_exporter_config_file}}"

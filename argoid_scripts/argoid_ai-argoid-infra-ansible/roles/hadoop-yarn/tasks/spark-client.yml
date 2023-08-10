@@ -1,0 +1,104 @@
+- name: Create /opt/spark directory
+  file:
+    path: "{{spark_dir}}"
+    state: directory
+    owner: hdfs
+    group: hdfs
+    mode: 0775
+    recurse: yes
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Create /tmp/argoid_repo directory
+  file:
+    path: /tmp/argoid_repo
+    state: directory
+    mode: 0777
+    recurse: yes
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Download spark package
+  get_url:
+    url: "{{spark_source_url}}"
+    dest: /tmp/argoid_repo
+    mode: 0777
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Find spark archive with pattern spark*.tgz
+  find:
+    paths: /tmp/argoid_repo
+    patterns: spark*.tgz
+  register: files_to_extract
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Extract spark*.tgz archive
+  unarchive:
+     src: "{{item.path}}"
+     dest: "{{spark_dir}}"
+     creates: "{{spark_dir}}/conf"
+     owner: hdfs
+     group: hdfs
+     mode: 0777
+     remote_src: yes
+     extra_opts: [--strip-components=1]
+  with_items: "{{files_to_extract.files}}"
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Copy spark-defaults.conf configuration file
+  template:
+    src: files/spark-defaults.conf
+    dest: "{{spark_dir}}/conf/spark-defaults.conf"
+    owner: hdfs
+    group: hdfs
+    mode: 0644
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Copy  spark-env.sh  configuration file
+  template:
+    src: files/spark-env.sh
+    dest: "{{spark_dir}}/conf/spark-env.sh"
+    owner: hdfs
+    group: hdfs
+    mode: 0644
+    force: yes
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Find tar ball to delete
+  find:
+    paths: /tmp/argoid_repo
+    patterns: spark*.tar.gz
+  register: files_to_delete
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node
+
+- name: Deletes tar ball
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+  tags:
+  - setup_hadoop_client
+  - setup_spark_client
+  - setup_node

@@ -1,0 +1,58 @@
+groups:
+- name: haproxy.rules
+  rules:
+  - alert: SaaS-Prod1(RR) CRITICAL HA Proxy Metric exporter or HAProxy is down on 10.0.0.23
+    expr: up{job="haproxy_100023"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "HA Proxy Metric exprter from  10.0.0.23 is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&from=now-1h&to=now&var-host=10.0.0.23&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s"
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL HAProxy is Down on 10.0.0.23
+    expr:  haproxy_up{job="haproxy_100023"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "HA Proxy server is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&from=now-1h&to=now&var-host=10.0.0.23&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s"
+
+
+ # - alert: SaaS-Prod1(ES) CRITICAL HA Proxy Metric exporter or HAProxy is down on 10.0.0.27
+ #   expr: up{job="haproxy_100027"} == 0
+ #   for: 2m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "HA Proxy Metric exprter from  10.0.0.27 is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&var-host=10.0.0.27&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s&from=now-1h&to=now"
+
+
+ # - alert: SaaS-Prod1(ES) CRITICAL HAProxy is Down on 10.0.0.27
+ #   expr:  haproxy_up{job="haproxy_100027"} == 0
+ #   for: 2m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "HA Proxy server is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&var-host=10.0.0.27&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s&from=now-1h&to=now"
+
+
+#  - alert: SaaS-Prod1(STAGE RR) CRITICAL HA Proxy Metric exporter or HAProxy is down on 10.0.0.33
+#    expr: up{job="haproxy_100033"} == 0
+#    for: 2m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "HA Proxy Metric exprter from  10.0.0.33 is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&var-host=10.0.0.33&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s&from=now-1h&to=now"
+
+
+#  - alert: SaaS-Prod1(STAGE RR) CRITICAL HAProxy is Down on 10.0.0.33
+#    expr:  haproxy_up{job="haproxy_100033"} == 0
+#    for: 2m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "HA Proxy server is down; Grafana URL http://10.0.0.15:3000/d/353BLLPMl/haproxy?orgId=1&refresh=5m&var-host=10.0.0.33&var-port=9101&var-backend=All&var-frontend=All&var-server=All&var-code=All&var-interval=30s&from=now-1h&to=now"
+
+
+

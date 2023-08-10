@@ -1,0 +1,57 @@
+---
+- name: Copy Mysql Configuration file
+  template: src=files/my.cnf  dest=/etc/my.cnf force=yes
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: Start Mysql
+  systemd:
+    state: started
+    name: mysqld
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: Stat for Mysql user
+  command: mysqladmin --user root --password={{mysql_root_password}} status
+  register: password_status
+  failed_when: "'Access denied for user' not in password_status.stderr and  password_status.rc != 0 "
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: Get temporary password
+  shell: "grep -oP '(?<=A temporary password is generated for root@localhost: )[^ ]+' /var/log/mysqld.log"
+  register: temp_password
+  changed_when: False
+  when: password_status.rc != 0
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- debug: msg={{ temp_password.stdout }}
+  when: password_status.rc != 0
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: Update root user password
+  command: mysql --user root --password={{ temp_password.stdout }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_password }}';"
+  when: password_status.rc != 0
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup
+
+- name: create remote root user
+  command: mysql --user root --password={{ mysql_root_password }} --host=localhost  --execute="CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '{{mysql_root_password }}';GRANT ALL PRIVILEGES ON *.*  TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+  tags:
+  - setup_mysql
+  - setup_node
+  - cluster_setup

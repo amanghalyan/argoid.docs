@@ -1,0 +1,68 @@
+---
+- name: Create statsd directory
+  file:
+    path: /opt/statsd
+    state: directory
+  tags:
+    - setup_airflow
+    - setup_node
+    - cluster_setup
+
+- name: Copy airflow_statsd_mapping.yml file
+  template:
+    src: templates/airflow_statsd_mapping.yml
+    dest: /opt/statsd/
+  tags:
+    - setup_airflow
+    - configure_airflow
+    - setup_node
+    - cluster_setup
+
+- name: Check if Statsd-Exporter port is free
+  shell: lsof -i:{{ statsd_exporter_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: statsd_exporter_status
+  tags:
+    - start_statsd_exporter
+    - check_statsd_exporter
+    - start
+    - check
+    - cluster_setup
+
+- name: Start Statsd-Exporter container
+  docker_container:
+    name: "{{ statsd_exporter_container_name }}"
+    image: "{{ statsd_exporter_docker_image }}"
+    state: started
+    ports:
+      - "{{airflow_statsd_port}}:9125/tcp"
+      - "{{airflow_statsd_port}}:9125/udp"
+      - "{{ statsd_exporter_port }}:9102"
+    volumes:
+      - /opt/statsd/airflow_statsd_mapping.yml:/tmp/airflow_statsd_mapping.yml
+    env:
+      STATSD.MAPPING-CONFIG: /tmp/airflow_statsd_mapping.yml
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  when: statsd_exporter_status.rc == 1
+  tags:
+    - start_statsd_exporter
+    - check_statsd_exporter
+    - start
+    - docker
+    - cluster_setup
+ 
+- name: Stop Statsd-Exporter container
+  docker_container:
+    name: "{{ statsd_exporter_container_name }}"
+    image: "{{ statsd_exporter_docker_image }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_statsd_exporter
+    - stop
+    - never

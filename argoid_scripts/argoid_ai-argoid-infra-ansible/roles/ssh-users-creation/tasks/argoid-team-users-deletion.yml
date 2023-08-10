@@ -1,0 +1,12 @@
+---
+- name: Delete SSH-User accounts in all VMs
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  with_items: "{{ delete_ssh_users }}"
+  when:
+    - create_ssh_private_keys is not defined or  create_ssh_private_keys == false
+  tags:
+    - delete_ssh_users
+    - never

@@ -1,0 +1,29 @@
+---
+# defaults file for zookeeper
+zookeeper_port: 2181
+# The unit of time for ZooKeeper translated to milliseconds. 
+# # This governs all ZooKeeper time dependent operations. It is used for heartbeats and timeouts especially. 
+# # Note that the minimum session timeout will be two ticks.
+zookeeper_ticktime: 3000
+#
+# # Amount of time, in ticks (see tickTime), to allow followers to connect and sync to a leader. 
+# # Increased this value as needed, if the amount of data managed by ZooKeeper is large.
+zookeeper_init_limit: 10
+#
+# # Amount of time, in ticks (see tickTime), to allow followers to sync with ZooKeeper. 
+# # If followers fall too far behind a leader, they will be dropped.
+zookeeper_sync_limit: 5
+#
+# # The directory where ZooKeeper in-memory database snapshots and, unless specified in dataLogDir, the transaction log of updates to the database. 
+# # This location should be a dedicated disk that is ideally an SSD. 
+# # For more information, see the ZooKeeper Administration Guide (https://zookeeper.apache.org/doc/current/zookeeperAdmin.html).
+zookeeper_data_dir: /var/lib/zookeeper
+# This is the port where ZooKeeper clients will listen on. This is where the Brokers will connect to ZooKeeper. Typically this is set to 2181.
+zookeeper_client_port: 2181
+#
+# # The maximum allowed number of client connections for a ZooKeeper server. To avoid running out of allowed connections set this to 0 (unlimited).
+zookeeper_max_client_cnxns: 60
+zookeeper_leader_port: 2888
+zookeeper_election_port: 3888
+zookeeper_max_backup_logs: 10 
+zookeeper_log_threshold: DEBUG

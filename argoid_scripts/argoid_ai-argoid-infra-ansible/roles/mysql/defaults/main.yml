@@ -1,0 +1,5 @@
+---
+# defaults file for mysql
+mysql_rpm_source_url: https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
+mysql_data_dir: /data/1/mysql/
+mysql_root_password: Password@123

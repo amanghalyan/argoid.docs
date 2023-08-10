@@ -1,0 +1,34 @@
+  - name: Create kairosdb  group
+    group: name=kairosdb state=present
+    tags:
+      - setup_node
+      - cluster_setup
+      - setup_kairosdb
+
+  - name: Create kairosdb user
+    user: name=kairosdb state=present
+    tags:
+      - setup_node
+      - setup_kairosdb
+
+  - name: download kairosdb
+    yum:
+      name: "{{kairosdb_source_url}}"
+      state: present
+      download_only: "{{package_upgrade}}"
+    tags:
+      - setup_node
+      - setup_kairosdb
+ 
+  - name: Creates /opt/kairosdb
+    file:
+      path: /opt/kairosdb
+      state: directory
+      owner: kairosdb
+      group: kairosdb
+      mode: 0775
+      recurse: yes
+      force: yes
+    tags:
+      - setup_node
+      - setup_kairosdb

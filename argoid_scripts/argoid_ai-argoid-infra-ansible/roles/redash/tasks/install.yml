@@ -1,0 +1,41 @@
+---
+- name: Create Redash Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+  with_items:
+  - /opt/redash
+  - /opt/redash/postgres-data 
+  - /opt/redash_backup
+  - /opt/redash_backup_scripts
+  tags:
+  - setup_redash
+  - setup_node
+  - cluster_setup
+
+- name: Copy Redash Environment file 
+  template: 
+    src: files/env
+    dest: /opt/redash
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_redash
+  - setup_node
+  - cluster_setup
+
+- name: Copy docker-compose file
+  template:
+    src: files/docker-compose.yml
+    dest: /opt/redash
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - setup_redash
+  - setup_node
+  - cluster_setup

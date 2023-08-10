@@ -1,0 +1,46 @@
+---
+- name: Pause - Bootstrapping is about to begin
+  pause: prompt="Are you sure that you want to continue bootstrapping HDFS?" seconds=30
+  tags:
+  - format_namenode
+  - never
+
+- name: Format the namenode "{{ groups.hdfs_namenode[0] }}" - Will NOT FORMAT if current/VERSION path exists to avoid data loss
+  command: bash -lc "/usr/bin/hdfs namenode -format -nonInteractive"
+  args:
+    creates: "{{ hdfs_namenode_dir}}/current/VERSION"
+  become: true
+  become_user: hdfs
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  register: register_hdfs_namenode_format
+  tags:
+  - format_namenode
+  - never
+
+- name: Start namenode 
+  service: name=hadoop-hdfs-namenode state=started
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Wait for the namenode "{{ groups.hdfs_namenode[0] }}"  to come online
+  wait_for: host={{ groups.hdfs_namenode[0] }} port=50070
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Start data nodes
+  service: name=hadoop-hdfs-datanode state=started
+  when: inventory_hostname in  "{{ groups.hdfs_datanode }}"
+  tags:
+  - format_namenode
+  - never
+
+- name: Bootstrapping complete
+  debug: "msg='New namenode can be opened at http://{{ inventory_hostname }}:50070/'"
+  when: inventory_hostname == "{{ groups.hdfs_namenode[0] }}"
+  tags:
+  - format_namenode
+  - never

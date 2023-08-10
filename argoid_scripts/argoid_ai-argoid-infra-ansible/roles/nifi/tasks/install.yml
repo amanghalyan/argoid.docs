@@ -1,0 +1,61 @@
+---
+- name: Create nifi group
+  group: name=nifi state=present
+  tags:
+    - setup_node
+    - setup_nifi
+    - cluster_setup
+
+- name: Create nifi user
+  user: name=nifi state=present
+  tags:
+    - setup_node
+    - setup_nifi
+    - cluster_setup
+
+- name: Check nifi existence
+  stat:
+    path: "{{ nifi_dir }}/bin"
+  register: nifi_existence
+  ignore_errors: True
+  tags:
+    - setup_nifi
+    - setup_node
+    - cluster_setup
+
+
+- name: Creating nifi directory
+  file:
+    path: "{{ nifi_dir }}"
+    state: directory
+    recurse: yes
+  tags:
+    - setup_nifi
+    - setup_node
+    - cluster_setup
+
+- name: Download Nifi using get_url
+  get_url:
+     dest: "/tmp/"
+     url: "{{ nifi_source_url }}" 
+     mode: 0755
+     group: nifi
+     owner: nifi
+  when: nifi_existence.stat.exists == False
+  tags:
+    - setup_nifi
+    - setup_node
+    - cluster_setup
+
+- name: Extract archive
+  unarchive:
+     src: "/tmp/nifi-1.13.2-bin.tar.gz"
+     dest: "{{ nifi_dir }}"
+     creates: "{{ nifi_dir }}/bin"
+     remote_src: yes
+     extra_opts: [--strip-components=1]
+  when: nifi_existence.stat.exists == False
+  tags:
+    - setup_nifi
+    - setup_node
+    - cluster_setup

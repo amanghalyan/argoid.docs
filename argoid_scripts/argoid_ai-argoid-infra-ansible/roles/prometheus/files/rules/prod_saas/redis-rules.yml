@@ -1,0 +1,161 @@
+groups:
+- name: redis.rules
+  rules:
+#  - alert: SaaS-Prod1(RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.24
+#    expr:  up{job="redis_exporter_100024"} == 0
+#    for: 2m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+#
+#
+#  - alert: SaaS-Prod1(RR) CRITICAL Redis is Down in 10.0.0.24
+#    expr:  redis_up{job="redis_exporter_100024"} == 0
+#    for: 3m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.46
+    expr:  up{job="redis_exporter_100046"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Redis is Down in 10.0.0.46
+    expr:  redis_up{job="redis_exporter_100046"} == 0
+    for: 3m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+ # - alert: SaaS-Prod1(RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.41
+ #   expr:  up{job="redis_exporter_100041"} == 0
+ #   for: 2m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+ # - alert: SaaS-Prod1(RR) CRITICAL Redis is Down in 10.0.0.41
+ #   expr:  redis_up{job="redis_exporter_100041"} == 0
+ #   for: 3m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+  - alert: SaaS-Prod1(AZ) CRITICAL  Redis  service or Metric exporter is down 10.0.0.51
+    expr:  up{job="redis_exporter_100051"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+  - alert: SaaS-Prod1(AZ) CRITICAL Redis is Down in 10.0.0.51
+    expr:  redis_up{job="redis_exporter_100051"} == 0
+    for: 3m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  Redis  service or Metric exporter is down 10.0.0.56
+    expr:  up{job="redis_exporter_100056"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL Redis is Down in 10.0.0.56
+    expr:  redis_up{job="redis_exporter_100056"} == 0
+    for: 3m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+  #- alert: SaaS-Prod1(ES) CRITICAL  Redis  service or Metric exporter is down 10.0.0.31
+ #   expr:  up{job="redis_exporter_100031"} == 0
+ #   for: 2m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+ # - alert: SaaS-Prod1(ES) CRITICAL Redis is Down in 10.0.0.31
+ #   expr:  redis_up{job="redis_exporter_100031"} == 0
+ #   for: 3m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+ # - alert: SaaS-Prod1(STAGE RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.33
+ #   expr:  up{job="redis_exporter_100033"} == 0
+ #   for: 2m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.35:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+ # - alert: SaaS-Prod1(STAGE RR) CRITICAL Redis is Down in 10.0.0.33
+ #   expr:  redis_up{job="redis_exporter_100033"} == 0
+ #   for: 3m
+ #   labels:
+ #     severity: "critical"
+ #   annotations:
+ #     summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+#  - alert: SaaS-Prod1(STAGE RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.35
+#    expr:  up{job="redis_exporter_100035"} == 0
+#    for: 2m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.35:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+#  - alert: SaaS-Prod1(STAGE RR) CRITICAL Redis is Down in 10.0.0.35
+#    expr:  redis_up{job="redis_exporter_100035"} == 0
+#    for: 3m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+#  - alert: SaaS-Prod1(PROD RR) CRITICAL  Redis  service or Metric exporter is down 10.0.0.36
+#    expr:  up{job="redis_exporter_100036"} == 0
+#    for: 2m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.35:3000/d/938XQp3Wzl/redis?orgId=1"
+
+
+#  - alert: SaaS-Prod1(PROD RR) CRITICAL Redis is Down in 10.0.0.36
+#    expr:  redis_up{job="redis_exporter_100036"} == 0
+#    for: 3m
+#    labels:
+#      severity: "critical"
+#    annotations:
+#      summary: "Grafana URL http://10.0.0.15:3000/d/938XQp3Wzl/redis?orgId=1"

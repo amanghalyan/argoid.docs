@@ -1,0 +1,92 @@
+---
+# tasks file for python3-virtualenv
+  - name: Enable EPEL Repository on CentOS 7
+    yum:
+      name: epel-release
+      state: latest
+    tags: 
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: check if virtualenv libarary already installed or not
+    stat:
+      path: /usr/bin/virtualenv
+    register: pip_virtualenv_installed
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Download Pip-Installer
+    get_url:
+      url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+      dest: /tmp/get-pip.py
+    when: pip_virtualenv_installed.stat.exists == False
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Install pip
+    shell: /usr/bin/python /tmp/get-pip.py
+    when: pip_virtualenv_installed.stat.exists == False
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Delete get-pip.py file
+    file: 
+      path: /tmp/get-pip.py
+      state: absent
+    ignore_errors: True
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+
+  - name: Install virtualenv module
+    pip:
+      name: virtualenv
+    when: pip_virtualenv_installed.stat.exists == False
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Install python {{python_venv_version}}
+    yum:
+      name:
+        - python{{python_venv_version|replace(".","")}}
+        - python{{python_venv_version|replace(".","")}}-devel
+        - python{{python_venv_version|replace(".","")}}-libs
+        - gcc
+        - gcc-c++
+        - libselinux-python
+        - python3-setuptools.noarch
+      state: present
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Create Python{{python_venv_version}} virtual environment folder
+    file:
+      name: "{{ python3_virtualenv_path }}"
+      state: directory
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Copy requirements.txt  file
+    template:
+      dest: "{{ python3_virtualenv_path }}"
+      src: files/requirements.txt
+      mode: 0777
+    tags:
+    - setup_python3_venv
+    - cluster_setup
+
+  - name: Initiate Python {{python_venv_version}} virtualenv
+    pip:
+      virtualenv: "{{ python3_virtualenv_path }}"
+      virtualenv_python: python{{python_venv_version}}
+      requirements: "{{ python3_virtualenv_path }}/requirements.txt"
+    tags:
+    - setup_python3_venv
+    - cluster_setup

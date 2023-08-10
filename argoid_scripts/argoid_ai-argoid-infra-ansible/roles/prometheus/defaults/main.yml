@@ -1,0 +1,11 @@
+---
+prometheus_mount_config_dir: /opt/prometheus
+prometheus_config_dir: /etc/prometheus
+prometheus_port: 9090
+prometheus_container_name: prometheus
+prometheus_docker_image: prom/prometheus:latest
+node_exporter_port: 9100
+node_exporter_container_name: node_exporter
+node_exporter_docker_image: prom/node-exporter:latest
+prometheus_mount_data_dir: /data/1/prometheus
+prometheus_data_dir: /prometheus

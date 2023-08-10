@@ -1,0 +1,20 @@
+groups:
+- name: presto.rules
+  rules:
+  - alert: SaaS-Prod1(RR) WARNING  Presto is down on 10.0.0.12
+    expr:  up{job="presto"} == 0
+    for: 1m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Presto is down on  10.0.0.12 "
+      description: " Refer this Runbook , https:// "
+
+  - alert: SaaS-Prod1(RR) CRITICAL Prod Presto is down on 10.0.0.60
+    expr:  up{job="presto_prod"} == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Presto is down on  10.0.0.60 "
+      description: " Refer this Runbook , https:// "

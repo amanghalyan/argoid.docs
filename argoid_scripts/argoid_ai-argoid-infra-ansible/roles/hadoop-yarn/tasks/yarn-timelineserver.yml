@@ -1,0 +1,39 @@
+- name: install Yarn Timeline-Server
+  yum:
+    name: hadoop-yarn-timelineserver.x86_64
+    state: present
+  tags:
+  - setup_historyserver
+  - setup_timelineserver
+
+- name: Check if Yarn Timeline-Server    is running
+  shell: lsof -i:{{ yarn_timeline_web_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  tags:
+  - setup_historyserver
+  - setup_timelineserver
+  - check_timelineserver
+  - check
+  
+- name: start Timeline-Server  service
+  command: /etc/init.d/hadoop-yarn-timelineserver start
+  tags:
+  - setup_historyserver
+  - setup_timelineserver
+  - start_timelineserver
+  - start
+
+- name: stop Timeline-Server service
+  command: /etc/init.d/hadoop-yarn-timelineserver stop
+  tags:
+  - stop_timelineserver
+  - never
+
+- name: restart Timeline-Server  service
+  command: /etc/init.d/hadoop-yarn-timelineserver restart
+  tags:
+  - restart_timelineserver
+  - never

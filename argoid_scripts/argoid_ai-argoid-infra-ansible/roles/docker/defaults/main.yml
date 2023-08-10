@@ -1,0 +1,12 @@
+---
+# defaults file for docker
+docker_edition: 'ce'
+docker_package: "docker-{{ docker_edition }}"
+docker_package_state: present
+docker_yum_repo_url: https://download.docker.com/linux/{{ (ansible_distribution == "Fedora") | ternary("fedora","centos") }}/docker-{{ docker_edition }}.repo
+docker_yum_gpg_key: https://download.docker.com/linux/centos/gpg
+docker_venv_path: /opt/docker_venv  
+docker_installation_python_path: /usr/bin/python  
+docker_python_interpreter: "{{ docker_venv_path }}/bin/python" 
+docker_compose_path: /usr/local/bin/docker-compose
+docker_compose_version: "1.23.2"

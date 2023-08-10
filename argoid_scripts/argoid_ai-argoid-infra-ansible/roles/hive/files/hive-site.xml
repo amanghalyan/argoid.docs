@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!--
+       Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+<!-- Hive Configuration can either be stored in this file or in the hadoop configuration files  -->
+<!-- that are implied by Hadoop setup variables.                                                -->
+<!-- Aside from Hadoop setup variables - this file is provided as a convenience so that Hive    -->
+<!-- users do not have to edit hadoop configuration files (that may be managed as a centralized -->
+<!-- resource).                                                                                 -->
+
+<!-- Hive Execution Parameters -->
+
+
+
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:mysql://{{ groups.hive[0] }}:3306/metastore?createDatabaseIfNotExist=true</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>com.mysql.jdbc.Driver</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>{{hive_mysql_user}}</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>{{hive_mysql_password}}</value>
+</property>
+
+<property>
+  <name>hive.metastore.warehouse.dir</name>
+  <value>/apps/hive/warehouse</value>
+  <description>location of default database for the warehouse</description>
+</property>
+
+<property>
+  <name>hive.metastore.uris</name>
+  <value>thrift://{{ groups.hive[0] }}:{{hive_metastore_port}}</value>
+</property>
+
+<property>
+  <name>datanucleus.autoCreateSchema</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>datanucleus.fixedDatastore</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>datanucleus.autoStartMechanism</name>
+  <value>SchemaTable</value>
+</property>
+
+<property>
+  <name>hive.server2.thrift.min.worker.threads</name>
+  <value>5</value>
+  <description>Minimum number of Thrift worker threads</description>
+</property>
+
+<property>
+  <name>hive.server2.thrift.max.worker.threads</name>
+  <value>500</value>
+  <description>Maximum number of Thrift worker threads</description>
+</property>
+
+<property>
+  <name>hive.server2.thrift.bind.host</name>
+  <value/>
+<description>{{ groups.hive[0] }}</description>
+</property>
+
+
+<property>
+  <name>hive.server2.thrift.port</name>
+  <value>{{hive_server2_port}}</value>
+  <description>TCP port number to listen on, default 10000</description>
+</property>
+
+<property>
+  <name>hive.server2.authentication</name>
+  <value>NONE</value>
+  <description>Thi</description>
+</property>
+
+<property>
+  <name>hive.server2.enable.doAs</name>
+  <value>false</value>
+  <description>Set this property to enable impersonation in Hive Server 2</description>
+</property>
+
+<property>
+<name>mapred.input.dir.recursive</name>
+<value>true</value>
+</property>
+
+<property>
+<name>hive.mapred.supports.subdirectories</name>
+<value>true</value>
+</property>
+
+
+<property>
+  <name>hive.zookeeper.quorum</name>
+  <value>{{ groups.zookeeper|join(":2181,") }}:2181</value>
+</property>
+
+<property>
+  <name>hive.zookeeper.client.port</name>
+  <value>2181</value>
+</property>
+
+<property>
+    <name>hive.server2.support.dynamic.service.discovery</name>
+    <value>true</value>
+    <description>Whether HiveServer2 supports dynamic service discovery for its clients. To support this, each instance of HiveServer2 currently uses ZooKeeper to register itself, when it is brought up. JDBC/ODBC clients should use the ZooKeeper ensemble: hive.zookeeper.quorum in their connection string.</description>
+</property>
+
+
+<property>
+    <name>hive.metastore.schema.verification</name>
+    <value>false</value>
+    <description>
+      Enforce metastore schema version consistency.
+      True: Verify that version information stored in is compatible with one from Hive jars.  Also disable automatic
+            schema migration attempt. Users are required to manually migrate schema after Hive upgrade which ensures
+            proper metastore schema migration. (Default)
+      False: Warn if the version information stored in metastore doesn't match with one from in Hive jars.
+    </description>
+</property>
+
+<property>
+    <name>hive.zookeeper.session.timeout</name>
+    <value>12000000ms</value>
+    <description>
+      Expects a time value with unit (d/day, h/hour, m/min, s/sec, ms/msec, us/usec, ns/nsec), which is msec if not specified.
+      ZooKeeper client's session timeout (in milliseconds). The client is disconnected, and as a result, all locks released,
+      if a heartbeat is not sent in the timeout.
+    </description>
+</property>
+<property>
+  <name>hive.auto.convert.join</name>
+  <value>false</value>
+</property>
+
+
+</configuration>

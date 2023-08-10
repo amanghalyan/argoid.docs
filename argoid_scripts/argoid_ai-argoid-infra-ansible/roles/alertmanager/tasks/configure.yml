@@ -1,0 +1,13 @@
+---
+  - name: Update Alertmanager file 
+    template: 
+      src: templates/alertmanager.yml
+      dest: "{{ alertmanager_mount_data_dir }}"
+      owner: alertmanager
+      group: alertmanager
+      mode: 0755
+    tags:
+      - setup_alertmanager
+      - configure_alertmanager
+      - setup_node 
+      - cluster_setup

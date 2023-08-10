@@ -1,0 +1,47 @@
+---
+- name: Check if grafana is running
+  shell: lsof -i:{{ grafana_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  tags:
+    - check_grafana
+    - check
+
+- name: Get UID of grafana user
+  getent:
+    database: passwd
+    key: grafana
+  tags:
+    - start_grafana
+    - start
+
+- name: Start grafana container
+  docker_container:
+    name: "{{ grafana_container_name }}"
+    image: "{{ grafana_docker_image }}"
+    user: "{{ getent_passwd['grafana'][1] }}"
+    restart_policy: always
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - "{{ grafana_mount_data_dir }}:{{ grafana_data_dir }}"
+    state: started
+    ports:
+      - "{{ grafana_port }}:3000"
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - start_grafana
+    - start
+
+
+- name: Stop grafana container
+  docker_container:
+    name: "{{ grafana_container_name }}"
+    state: stopped
+  vars:
+    ansible_python_interpreter: "{{ docker_python_interpreter }}"
+  tags:
+    - stop_grafana
+    - stop
+    - never

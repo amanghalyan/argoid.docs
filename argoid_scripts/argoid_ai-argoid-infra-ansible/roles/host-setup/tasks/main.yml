@@ -1,0 +1,10 @@
+---
+# tasks file for host-setup
+- import_tasks: selinux.yml
+- import_tasks: hostname-mapping.yml
+- import_tasks: common-utilities.yml
+- import_tasks: limits.yml
+- import_tasks: bigtop.yml
+- import_tasks: java.yml
+- import_tasks: jmx-exporter.yml
+- import_tasks: disk.yml

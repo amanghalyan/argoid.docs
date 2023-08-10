@@ -1,0 +1,55 @@
+- name: Copying nifi systemd service file
+  template:
+    src: templates/nifi.service
+    dest: /etc/systemd/system/nifi.service
+  tags:
+    - setup_nifi
+    - setup_node
+    - cluster_setup
+
+- name: Check if nifi  is running
+  shell: lsof -i:{{ nifi_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  changed_when: false
+  register: service_nifi_status
+  tags:
+    - check
+    - start
+    - check_nifi
+    - start_nifi
+    - setup_nifi
+    - setup_node
+    - cluster_setup
+
+- name: Start nifi 
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: nifi
+  when: service_nifi_status.rc == 1
+  tags:
+    - check_nifi
+    - start_nifi
+    - start
+    - cluster_setup
+
+- name: Stop service nifi, if started
+  systemd:
+    state: stopped
+    name: nifi
+  tags:
+    - stop_nifi
+    - stop
+    - never
+
+- name: Restart nifi
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: nifi
+  tags:
+    - restart_nifi
+    - restart
+    - never

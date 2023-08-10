@@ -1,0 +1,79 @@
+- name: Copy redis.conf
+  template:
+     src: files/redis.conf
+     dest: /etc/redis/redis.conf
+     owner: redis
+     group: redis
+     mode: '0644'
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_redis
+    - setup_redis
+
+- name: Copy redis.service
+  template:
+     src: files/redis.service
+     dest: /etc/systemd/system/redis.service
+     owner: redis
+     group: redis
+     mode: '0755'
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_redis
+    - setup_redis
+
+- name: Copy sentinel.conf
+  template:
+     src: files/sentinel.conf
+     dest: /etc/redis/sentinel.conf
+     owner: redis
+     group: redis
+     mode: '0644'
+  when: inventory_hostname in  "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_sentinel
+    - setup_sentinel
+    - setup_redis
+
+- name: Copy sentinel.service
+  template:
+     src: files/sentinel.service
+     dest: /etc/systemd/system
+     owner: redis
+     group: redis
+     mode: '0755'
+  when: inventory_hostname in  "{{ groups.redis_sentinel }}" and redis_sentinel_enabled == True
+  tags:
+    - setup_node
+    - cluster_setup
+    - configure_sentinel
+    - setup_sentinel
+    - setup_redis
+
+- name: Copy redis-sysctl.conf
+  template:
+     src: files/redis-sysctl.conf
+     dest: /etc/sysctl.d/redis-sysctl.conf
+     owner: root
+     group: root
+     mode: '0755'
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+    - configure_redis
+
+- name: sysctl changes
+  shell: sysctl -p
+  when: inventory_hostname in "{{ groups.redis_server }}"
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+    - configure_redis

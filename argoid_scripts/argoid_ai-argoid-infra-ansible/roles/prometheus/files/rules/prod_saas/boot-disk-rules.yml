@@ -1,0 +1,78 @@
+groups:
+- name: root-disk.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Boot-Disk space more than 95% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_10005|node_10006|node_10007|node_10008|node_10009|node_100010|node_100012|node_100013|node_100014|node_100015|node_100016|node_100017|node_100019|node_100022|node_100026|node_100031" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100 >= 95
+    for: 4m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+  - alert: SaaS-Prod1(Common) MINOR Boot-Disk space more than 85% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_10005|node_10006|node_10007|node_10008|node_10009|node_100010|node_100012|node_100013|node_100014|node_100015|node_100016|node_100017|node_100019|node_100022|node_100026|node_100031" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 85
+    for: 5m
+    labels:
+      severity: "minor"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+
+  - alert: SaaS-Prod1(Common) WARNING Boot-Disk space more than 90% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_10005|node_10006|node_10007|node_10008|node_10009|node_100010|node_100012|node_100013|node_100014|node_100015|node_100016|node_100017|node_100019|node_100022|node_100026|node_100031" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 90
+    for: 5m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+
+  - alert: SaaS-Prod1(RR) CRITICAL Boot-Disk space more than 95% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100020|node_100021|node_100023|node_100024|node_100025" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100 >= 95
+    for: 4m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+  - alert: SaaS-Prod1(RR) MINOR Boot-Disk space more than 85% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100020|node_100021|node_100023|node_100024|node_100025" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 85
+    for: 5m
+    labels:
+      severity: "minor"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+
+  - alert: SaaS-Prod1(RR) WARNING Boot-Disk space more than 90% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100020|node_100021|node_100023|node_100024|node_100025" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 90
+    for: 5m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+  - alert: SaaS-Prod1(ES) CRITICAL Boot-Disk space more than 95% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100027|node_100028|node_100029|node_100030" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100 >= 95
+    for: 4m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+  - alert: SaaS-Prod1(ES) MINOR Boot-Disk space more than 85% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100027|node_100028|node_100029|node_100030" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 85
+    for: 5m
+    labels:
+      severity: "minor"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "
+
+
+  - alert: SaaS-Prod1(ES) WARNING Boot-Disk space more than 90% utilized
+    expr: (node_filesystem_size_bytes{fstype="xfs", mountpoint="/", job=~"node_100027|node_100028|node_100029|node_100030" } - node_filesystem_free_bytes{fstype="xfs", mountpoint="/" }) / node_filesystem_size_bytes {fstype="xfs", mountpoint="/" }* 100  >= 90
+    for: 5m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafana Visualization http://10.0.0.15:3000/d/dEZxW5wMk/boot-disk-usage?orgId=1 "

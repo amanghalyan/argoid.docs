@@ -1,0 +1,12 @@
+---
+# defaults file for hive
+mysql_connector_source_url: http://52.156.121.90/argoid_repo/mysql/mysql-connector-java-8.0.15.jar
+hive_mysql_user: hive
+hive_mysql_password: Password@123
+hive_mysql_db: metastore
+mysql_root_password: Password@123
+hive_server2_port: 10000
+hive_metastore_port: 9083
+hive_heap_size: 512
+hive_server2_jmx_port: 9008
+hive_metastore_jmx_port: 9028

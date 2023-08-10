@@ -1,0 +1,27 @@
+groups:
+- name: reco.rules
+  rules:
+  - alert:  SaaS-Prod1(RR) CRITICAL Reco-cache service is down in 10.0.0.20
+    expr:  up{job="reco_cache_100020"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-cache stage service is down"
+
+  - alert:  SaaS-Prod1(AZ) CRITICAL Reco-cache service is down in 10.0.0.48
+    expr:  up{job="reco_cache_100048"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-cache SaaS-Prod1 AZ service is down"
+
+
+  - alert:  SaaS-Prod1(Fun2) CRITICAL Reco-cache service is down in 10.0.0.53
+    expr:  up{job="reco_cache_100053"}  == 0
+    for: 1m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Reco-cache SaaS-Prod1(Fun2) service is down"

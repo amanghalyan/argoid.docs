@@ -1,0 +1,17 @@
+---
+# tasks file for hadoop-yarn
+- import_tasks: install.yml
+- import_tasks: data-dir.yml
+- import_tasks: configure.yml
+- import_tasks: service.yml
+- import_tasks: yarn-timelineserver.yml
+  when: inventory_hostname in "{{ groups.yarn_timeline_server }}" and yarn_enable_log_aggregation == True
+
+- import_tasks: mr-historyserver.yml 
+  when: inventory_hostname in "{{ groups.yarn_mapreduce_jobhistory_server }}" and yarn_enable_log_aggregation == True
+
+- import_tasks: spark-historyserver.yml 
+  when: inventory_hostname in "{{ groups.spark_history_server }}"  and yarn_enable_log_aggregation == True
+
+- import_tasks: spark-client.yml
+  when: inventory_hostname in "{{ groups.hadoop_clients }}"

@@ -1,0 +1,159 @@
+---
+- name: Update hadoop-env.sh file 
+  template: 
+    src: files/hadoop-env.sh
+    dest: /etc/hadoop/conf/hadoop-env.sh
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+
+- name: Update yarn-env.sh file
+  template:
+    src: files/yarn-env.sh
+    dest: /etc/hadoop/conf/yarn-env.sh
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+
+- name: Update core-site.xml file
+  template:
+    src: files/core-site.xml 
+    dest: /etc/hadoop/conf/core-site.xml
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+
+- name: Update yarn-site.xml file
+  template:
+    src: files/yarn-site.xml
+    dest: /etc/hadoop/conf/yarn-site.xml
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+
+- name: Update mapred-site.xml file
+  template:
+    src: files/mapred-site.xml
+    dest: /etc/hadoop/conf/mapred-site.xml
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+   
+
+- name: Update capacity-scheduler.xml file
+  template:
+    src: files/capacity-scheduler.xml
+    dest: /etc/hadoop/conf/capacity-scheduler.xml
+    owner: root
+    mode: 0755
+    backup: yes
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+  - setup_hadoop_client
+
+- name: Copy NodeManager resouce changing configuration file
+  template:
+    src: files/nodemanager-resource-change.sh
+    dest: /etc/hadoop/conf/nodemanager-resource-change.sh
+    owner: root
+    mode: 0777
+  when:
+  - inventory_hostname in  "{{ groups.yarn_nodemanager }}"
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+
+- name: Copy NodeManager resouce changing systemd file
+  template:
+    src: files/nodemanager-modify.service
+    dest: /etc/systemd/system/nodemanager-modify.service
+    owner: root
+    mode: 0777
+  when:
+  - inventory_hostname in  "{{ groups.yarn_nodemanager }}"
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+
+- name: Configure log4j.properties
+  template: 
+    src: files/log4j.properties
+    dest: /etc/hadoop/conf/log4j.properties 
+    owner: root
+    mode: 0755
+  tags:
+  - configure_yarn
+  - setup_yarn
+  - setup_nodemanager
+
+
+- name: Create /yarn/node-labels/ HDFS directory
+  shell: hdfs dfs -mkdir -p /yarn/node-labels/ ; hdfs dfs -chmod -R 0777 /yarn ; hdfs dfs -chown yarn:yarn /yarn/node-labels/
+  become_user: hdfs
+  when: 
+  - inventory_hostname in  "{{groups.yarn_resourcemanager}}"
+  - yarn_enable_node_labelling == True
+  tags:
+  - configure_yarn
+  - setup_yarn
+
+- name: Creating /opt/yarn-nodemanager-resource-modification/
+  file:
+    path: /opt/yarn-nodemanager-resource-modification
+    state: directory
+    recurse: yes
+    owner: yarn
+    group: yarn
+  when:
+  - inventory_hostname in  "{{ groups.yarn_nodemanager }}"
+  tags:
+  - setup_yarn
+  - setup_nodemanager
+  - configure_yarn
+
+- name: Copy files/modify-yarn-site.py file
+  copy:
+    src: files/modify-yarn-site.py
+    dest: /opt/yarn-nodemanager-resource-modification/
+  tags:
+  - setup_yarn
+  - setup_nodemanager
+  - cluster_setup
+
+- name: Copy systemd nodemanager-modify.service  file
+  copy:
+    src: files/nodemanager-modify.service
+    dest: /etc/systemd/system/
+  tags:
+  - setup_yarn
+  - setup_nodemanager
+  - cluster_setup

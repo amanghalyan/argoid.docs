@@ -1,0 +1,43 @@
+- name: Check if zeppelin is running
+  shell: lsof -i:{{ zeppelin_port }} -t
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: zeppelin_status
+  tags:
+    - start
+    - start_zeppelin
+    - check
+    - check_zeppelin
+    - setup_zeppelin
+    - cluster_setup
+ 
+- name: Start zeppelin 
+  service:
+    state: started
+    name: zeppelin
+    enabled: yes
+  tags:
+    - check_zeppelin
+    - start_zeppelin
+    - start
+    - cluster_setup
+
+- name: Stop service zeppelin, if started
+  service:
+    state: stopped
+    name: zeppelin
+  tags:
+    - stop_zeppelin
+    - stop
+    - never
+
+- name: Restart zeppelin
+  service:
+    state: restarted
+    name: zeppelin
+    daemon_reload: yes
+  tags:
+    - restart_zeppelin
+    - restart
+    - never

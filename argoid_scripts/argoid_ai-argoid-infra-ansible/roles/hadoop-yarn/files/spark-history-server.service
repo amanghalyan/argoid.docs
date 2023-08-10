@@ -1,0 +1,16 @@
+[Unit]
+Description=Spark history
+After=network.target
+
+[Service]
+Type=forking
+User=hdfs
+Group=hdfs
+WorkingDirectory={{spark_dir}}
+ExecStart={{spark_dir}}/sbin/start-history-server.sh
+ExecStop={{spark_dir}}/sbin/stop-history-server.sh
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

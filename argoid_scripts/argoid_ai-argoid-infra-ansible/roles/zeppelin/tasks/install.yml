@@ -1,0 +1,62 @@
+  - name: Install wget
+    yum:
+       name:
+         - wget.x86_64
+       state: present
+    tags:
+     - setup_node
+     - setup_zeppelin
+     
+
+  - name: Create Zeppelin group
+    group: name=zeppelin state=present
+    tags:
+      - setup_node
+      - setup_zeppelin
+      - cluster_setup
+
+  - name: Create Zeppelin user
+    user: name=zeppelin state=present
+    tags:
+      - setup_node
+      - setup_zeppelin
+      - cluster_setup
+
+  - name: Creating zeppelin directory
+    file:
+      path: /opt/zeppelin
+      state: directory
+      owner: zeppelin
+      group: zeppelin
+      mode: 0755
+    tags:
+      - setup_node
+      - setup_zeppelin 
+      - cluster_setup
+
+  - name: Download  using get_url
+    get_url:
+       dest: "/tmp/"
+       url: "{{ zeppelin_source_url }}"
+       mode: 0755
+       group: zeppelin
+       owner: zeppelin
+    tags:
+      - setup_node
+      - setup_zeppelin
+      - cluster_setup
+
+  - name: Extract archive
+    unarchive:
+       src: "/tmp/{{ zeppelin_version }}-bin-all.tgz"
+       dest: "{{ zeppelin_dir }}"
+       creates: "{{ zeppelin_dir }}/bin"
+       mode: 0755
+       group: zeppelin
+       owner: zeppelin
+       remote_src: yes
+       extra_opts: [--strip-components=1]
+    tags:
+      - setup_zeppelin
+      - setup_node
+      - cluster_setup

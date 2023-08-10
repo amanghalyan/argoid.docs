@@ -1,0 +1,521 @@
+groups:
+- name: fun2.hdfs.files.rules
+  rules:
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/ingestion/events/events_stream/version=2 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/events/events_stream/version=2"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/ingestion/events/events_stream/version=2 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/events/events_stream/version=2"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/ingestion/entities/users/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/users/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/ingestion/entities/users/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/users/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/ingestion/entities/videos/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/videos/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/ingestion/entities/videos/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/videos/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/ingestion/entities/follow_users/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/follow_users/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/ingestion/entities/follow_users/version=1  HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/ingestion/entities/follow_users/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/journal/events/events_stream/version=2 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/journal/events/events_stream/version=2"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/journal/events/events_stream/version=2 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/journal/events/events_stream/version=2"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/user_video_interaction/version=3 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_video_interaction/version=3"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/user_video_interaction/version=3 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_video_interaction/version=3"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/snapshots HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/snapshots"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/snapshots HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/snapshots"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/user_derived_data/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_derived_data/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/user_derived_data/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_derived_data/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/relevant_followers/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/relevant_followers/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/relevant_followers/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/relevant_followers/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/user_profile/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_profile/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/user_profile/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_profile/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/trending_videos HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/trending_videos"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/trending_videos HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/trending_videos"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2  HDFS prod/processed/trending_published_videos/overall directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/trending_published_videos/overall"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/trending_published_videos/overall HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/trending_published_videos/overall"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/user_watch_history HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_watch_history"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/user_watch_history HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_watch_history"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/video_profile/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/video_profile/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/video_profile/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/video_profile/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/user_interested_categories HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_interested_categories"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2  HDFS prod/processed/user_interested_categories directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/user_interested_categories"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/verified_creator_category_videos HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/verified_creator_category_videos"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/verified_creator_category_videos HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/verified_creator_category_videos"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/verified_creator_batch_reco HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/verified_creator_batch_reco"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2  HDFS prod/batch_recommendations/verified_creator_batch_reco directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/verified_creator_batch_reco"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2  HDFS prod/features/lightfm directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/features/lightfm"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/features/lightfm HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/features/lightfm"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2  HDFS prod/models/lightfm directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/models/lightfm"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/models/lightfm HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/models/lightfm"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/lightfm_model HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/lightfm_model"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/lightfm_model HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/lightfm_model"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/final_results HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/final_results"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/final_results HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/final_results"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/processed/indirect_creator HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/indirect_creator"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/processed/indirect_creator HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/processed/indirect_creator"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/indirect_creator_videos HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/indirect_creator_videos"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/indirect_creator_videos HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/indirect_creator_videos"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/following_recommendation/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/following_recommendation/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/following_recommendation/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/following_recommendation/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/models/similar_creator HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/models/similar_creator"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/models/similar_creator HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/models/similar_creator"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/similar_creator_batch_reco HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/similar_creator_batch_reco"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/similar_creator_batch_reco HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/similar_creator_batch_reco"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/follower_reco_combined_results HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/follower_reco_combined_results"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/follower_reco_combined_results HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/follower_reco_combined_results"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/for_you_reco_combined_results HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/for_you_reco_combined_results"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/for_you_reco_combined_results HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/for_you_reco_combined_results"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+
+
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/dashboard_foryou_reco/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/dashboard_foryou_reco/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/dashboard_foryou_reco/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/dashboard_foryou_reco/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) WARNING No HDFS writes under following Fun2 prod/batch_recommendations/dashboard_following_reco/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/dashboard_following_reco/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "Warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+
+  - alert: SaaS-Prod1(Fun2) CRITICAL  No HDFS writes under following Fun2 prod/batch_recommendations/dashboard_following_reco/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/fun2/prod/batch_recommendations/dashboard_following_reco/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=21&fullscreen&orgId=1"
+

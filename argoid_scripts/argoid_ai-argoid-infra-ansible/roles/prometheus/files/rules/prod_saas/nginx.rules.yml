@@ -1,0 +1,38 @@
+groups:
+- name: nginx.rules
+  rules:
+  - alert: SaaS-Prod1(Common) CRITICAL Nginx exporter or Nginx is down on 10.0.0.17
+    expr: up{job="nginx_exporter_100017"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/MsjffzSZz/nginx?orgId=1"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Nginx is Down on 10.0.0.17
+    expr:  nginx_up{job="nginx_exporter_100017"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/MsjffzSZz/nginx?orgId=1"
+
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Nginx exporter or Nginx is down on 10.0.0.59
+    expr: up{job="nginx_exporter_100059"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/MsjffzSZz/nginx?orgId=1"
+
+
+  - alert: SaaS-Prod1(Common) CRITICAL Nginx is Down on 10.0.0.59
+    expr:  nginx_up{job="nginx_exporter_100059"} == 0
+    for: 2m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafana URL http://10.0.0.15:3000/d/MsjffzSZz/nginx?orgId=1"

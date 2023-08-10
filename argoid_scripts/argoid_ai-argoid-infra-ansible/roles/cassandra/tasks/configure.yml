@@ -1,0 +1,39 @@
+  - name: creating cassandra data directory
+    file:
+      path: "{{cassandra_data_dir}}"
+      state: directory
+      owner: cassandra
+      group: cassandra
+      mode: 0755
+      recurse: yes
+    tags:
+      - setup_node
+      - setup_cassandra
+      - configure_cassandra
+
+  - name: copy cassandra.yaml file
+    template: 
+      dest: /etc/cassandra/conf/cassandra.yaml 
+      src: templates/cassandra.yaml 
+      owner: cassandra 
+      group: cassandra 
+      mode: 0644
+      force: "{{force}}"
+    tags: 
+     - setup_node
+     - setup_cassandra
+     - configure_cassandra
+
+  - name: copy cassandra-env.sh file
+    template:
+      dest: /etc/cassandra/conf/cassandra-env.sh
+      src: templates/cassandra-env.sh
+      owner: cassandra
+      group: cassandra
+      mode: 0644
+      force: "{{force}}"
+      backup: yes
+    tags: 
+      - setup_node
+      - setup_cassandra
+      - configure_cassandra

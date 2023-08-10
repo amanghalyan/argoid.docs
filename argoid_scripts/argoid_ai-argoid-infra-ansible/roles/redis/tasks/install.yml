@@ -1,0 +1,123 @@
+---
+- name: Install wget gcc make tcl
+  yum:
+    name:
+      - wget.x86_64
+      - tcl.x86_64
+      - gcc
+      - gcc-c++
+      - make
+    state: present
+  tags:
+    - setup_redis
+    - setup_node  
+    - cluster_setup
+ 
+- name: Create redis user
+  user: name=redis state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+
+- name: Create redis group
+  group: name=redis state=present
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis 
+
+- name: Creating redis directory
+  file:
+    path: /usr/local/src/redis
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0777
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+
+- name: Creating conf directory
+  file:
+    path: /etc/redis
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0770
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+
+- name: Creating lib directory
+  file:
+    path: /var/lib/redis
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0770
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+
+- name: Creating log directory
+  file:
+    path: /var/log/redis/
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0770
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+
+- name: Download redis using get_url
+  get_url:
+     dest: "/tmp/"
+     url: "{{ redis_source_url }}"
+     mode: 0755
+     group: redis
+     owner: redis
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_redis
+    
+- name: Extract archive
+  unarchive:
+     src: /tmp/{{ redis_version }}.tar.gz
+     dest: /usr/local/src/redis
+     creates: /usr/local/src/redis/bin
+     owner: redis
+     group: redis
+     mode: 0775
+     remote_src: yes
+     extra_opts: [--strip-components=1]
+  tags:
+    - setup_redis
+    - setup_node
+    - cluster_setup 
+  
+- name: Execute make
+  shell: make
+  args:
+    chdir: /usr/local/src/redis/
+    creates: /usr/local/src/redis/make.txt
+  tags:
+    - cluster_setup
+    - setup_node
+    - setup_redis
+
+- name: Execute make install
+  shell: make install
+  args:
+    chdir: /usr/local/src/redis/
+    creates: /usr/local/src/redis/make_test.txt
+  tags:
+    - cluster_setup
+    - setup_node
+    - setup_redis

@@ -1,0 +1,326 @@
+groups:
+- name: entertainmentstore.hdfs.files.rules
+  rules:
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/customers/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/customers/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment ingestion/customers/version=1 Store HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/customers/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/products/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/products/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/collections/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/collections/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/collections/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/collections/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/product_variants/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/product_variants/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/product_variants/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/product_variants/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/inventory_items/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/inventory_items/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/inventory_items/version=1 HDFS directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/inventory_items/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/collections_without_connections/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/collections_without_connections/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/collections_without_connections/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/collections_without_connections/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/products_without_connections/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products_without_connections/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/products_without_connections/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products_without_connections/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/orders/version=2 HDFS  directory from past 8 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/orders/version=2"}[8h]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/orders/version=2 HDFS  directory from past 9 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/orders/version=2"}[9h]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/clickstream/version=1 HDFS  directory from past 3 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/clickstream/version=1"}[3h]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/clickstream/version=1 HDFS  directory from past 4 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/clickstream/version=1"}[4h]) * 1000 <= 10 and on() hour() > 2 < 18
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-3h&to=now"
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store features/lsi_features/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/features/lsi_features/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store features/lsi_features/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/features/lsi_features/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store recommendations/pdp_np_lsi/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_np_lsi/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store recommendations/pdp_np_lsi/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_np_lsi/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store recommendations/pdp_np_fbt/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_np_fbt/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store recommendations/pdp_np_fbt/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_np_fbt/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store processed/products_info/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/products_info/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store processed/products_info/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/products_info/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store processed/product_features/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/product_features/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store processed/product_features/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/product_features/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store processed/orders/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/orders/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store processed/orders/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/processed/orders/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store recommendations/pdp_intermediate_results/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_intermediate_results/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store recommendations/pdp_intermediate_results/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/recommendations/pdp_intermediate_results/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store batch_recommendations/pdp_statistical_model/version=1 HDFS  directory from past 25 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/batch_recommendations/pdp_statistical_model/version=1"}[25h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store pdp_statistical_model/version=1 HDFS  directory from past 28 hours
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/batch_recommendations/pdp_statistical_model/version=1"}[28h]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/products/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/products/version=2 HDFS  directory from past 120 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/products/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+
+  - alert: SaaS-Prod1(ES) WARNING No HDFS writes under following Entertainment Store ingestion/product_variants/version=2 HDFS  directory from past 90 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/product_variants/version=2"}[90m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "warning"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+
+  - alert: SaaS-Prod1(ES) CRITICAL  No HDFS writes under following Entertainment Store ingestion/product_variants/version=2 HDFS  directory from past 120 minutes
+    expr:  rate(node_hdfs_directory_size_bytes{directory="/data/entertainment_store/ingestion/product_variants/version=2"}[120m]) * 1000 <= 10
+    for: 10m
+    labels:
+      severity: "critical"
+    annotations:
+      summary: "Grafna URL http://10.0.0.15:3000/d/WzzNsVAGjk/hdfs-folder-monitoring?panelId=19&fullscreen&orgId=1&from=now-24h&to=now"
+

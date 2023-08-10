@@ -1,0 +1,32 @@
+- name: Install yum-utils
+  yum:
+    name: 
+      - epel-release
+      - yum-utils
+    state: present
+  tags:
+    - setup_kafka
+    - setup_node
+
+- name: Install kafka
+  yum:
+    name: kafka-server
+    state: latest
+  tags:
+    - setup_node
+    - setup_kafka
+    - cluster_setup
+
+- name: Creates kafka data directory
+  file:
+       path: "{{ kafka_data_dir }}"
+       state: directory
+       owner: kafka
+       group: kafka
+       mode: 0755
+       recurse: yes
+  tags:
+    - setup_node
+    - cluster_setup
+    - setup_kafka
+

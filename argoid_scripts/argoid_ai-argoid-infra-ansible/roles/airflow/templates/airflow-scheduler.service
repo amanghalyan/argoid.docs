@@ -1,0 +1,17 @@
+[Unit]
+Description=Airflow Scheduler daemon
+
+[Service]
+PIDFile=/run/airflow/scheduler.pid
+User=airflow
+Group=airflow
+Type=simple
+EnvironmentFile= {{ environmentfile }}
+ExecStart={{ python3_virtualenv_path }}/bin/python {{ python3_virtualenv_path }}/bin/airflow scheduler --pid /run/airflow/scheduler.pid
+##Environment="PATH={{ python3_virtualenv_path }}/bin:{{ ansible_env.PATH }}"
+Restart=on-failure
+RestartSec=5s
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
